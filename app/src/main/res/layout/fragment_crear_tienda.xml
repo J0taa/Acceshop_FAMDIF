@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CrearTiendaFragment">
+
+
+    <ScrollView
+        android:layout_width="389dp"
+        android:layout_height="516dp"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/idIdentificador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Id:" />
+
+            <EditText
+                android:id="@+id/creaTiendaId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/idNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre:" />
+
+            <EditText
+                android:id="@+id/creaTiendaNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/idTipoEstablecimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipo de Establecimiento" />
+
+            <Spinner
+                android:id="@+id/crearTiendaDespleglableTipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/idSubtipoEstablecimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Subtipo de establecimiento" />
+
+            <Spinner
+                android:id="@+id/crearTiendaDespleglableSubtipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/idTiendaDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dirección:" />
+
+            <EditText
+                android:id="@+id/creaTiendaDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/idTextoAccesibilidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Accesibilidad" />
+
+            <Spinner
+                android:id="@+id/crearTiendaDespleglableAccesibilidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/idLatitud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Latitud:" />
+
+            <EditText
+                android:id="@+id/creaTiendaLatitud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="0123456789."
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/idLongitud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Longitud:" />
+
+            <EditText
+                android:id="@+id/creaTiendaLongitud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="0123456789."
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+            <Button
+                android:id="@+id/btnGetLocation"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Obtener Ubicacion" />
+
+            <EditText
+                android:id="@+id/editTextImagen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre Imagen"
+                android:layout_marginStart="16dp"
+            />
+
+
+            <Button
+                android:id="@+id/btnCargarImagen"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/imagen" />
+
+            <ImageView
+                android:id="@+id/imagenCargada"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                />
+
+            <Button
+                android:id="@+id/btnCrearTienda"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Crear Tienda" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

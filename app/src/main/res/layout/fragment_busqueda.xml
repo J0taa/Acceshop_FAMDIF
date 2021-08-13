@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/despliaeDistancegabl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BusquedaFragment">
+
+
+    <ScrollView
+        android:layout_width="370dp"
+        android:layout_height="460dp"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tipoEstablecimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipo de Establecimiento" />
+
+            <Spinner
+                android:id="@+id/desplegableTipoEstablecimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/subtipoEstablecimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Subtipo de Establecimiento" />
+
+            <Spinner
+                android:id="@+id/desplegablesubtipoEstablecimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/idNombreTienda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Nombre" />
+
+            <EditText
+                android:id="@+id/textoNombreTienda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/idDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dirección" />
+
+            <EditText
+                android:id="@+id/textoDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/idDistancia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Distancia Máxima" />
+
+            <Spinner
+                android:id="@+id/desplegableDistancia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/idAccesibilidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Accesibilidad Minima" />
+
+            <Spinner
+                android:id="@+id/desplegableAccesibilidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnBusqueda"
+                android:layout_width="219dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/home_buscar" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

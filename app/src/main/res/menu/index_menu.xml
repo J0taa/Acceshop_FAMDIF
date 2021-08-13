@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:id="@+id/index_menu_group" android:checkableBehavior="single">
+        <item
+            android:id="@+id/item_index"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/item_search"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_busqueda" />
+        <item
+            android:id="@+id/item_sign_in"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_registrar" />
+        <item
+            android:id="@+id/item_log_in"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_acceder"/>
+
+        <item
+            android:id="@+id/item_about_us"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title= "@string/menu_aboutus"/>
+    </group>
+</menu>

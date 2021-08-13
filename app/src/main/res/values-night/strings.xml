@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_acceder">Acceder</string>
+    <string name="menu_registrar">Registrar</string>
+    <string name="home_buscar">Buscar</string>
+    <string name="home_about">Sobre Nosotros</string>
+    <string name="imagen">imagen</string>
+    <string name="home_valorar">Valorar</string>
+    <string name="home_sugerencia">Realizar Sugerencia</string>
+    <string name="home_logout">Desconectar</string>
+    <string name="menu_busqueda">Busqueda</string>
+    <string name="menu_registro">Registrar</string>
+    <string name="menu_aboutus">Sobre Nosotros</string>
+    <string name="menu_sugerencias">Sugerencias</string>
+    <string name="menu_miSugerencias">Mis Sugerencias</string>
+    <string name="menu_valorar">Valorar Establecimiento</string>
+    <string name="menu_logout">Desconectar</string>
+    <string name="view_suggestions">Ver Sugerencias</string>
+    <string name="add_shop">Añadir Tienda</string>
+    <string name="edit_shop">Editar Tienda</string>
+    <string name="delete_shop">Borrar Tienda</string>
+    <string name="delete_user">Borrar Usuario</string>
+    <string name="send_suggestion">Enviar sugerencia</string>
+    <string name="message">Mensaje</string>
+    <string name="mensaje">Mensaje:</string>
+</resources>

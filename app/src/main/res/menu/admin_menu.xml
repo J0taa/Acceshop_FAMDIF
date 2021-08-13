@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:id="@+id/index_menu_group" android:checkableBehavior="single">
+        <item
+            android:id="@+id/item_home"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/item_search"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_busqueda" />
+        <item
+            android:id="@+id/item_suggestions"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_sugerencias" />
+        <item
+            android:id="@+id/item_my_suggestions"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_miSugerencias"/>
+        <item
+            android:id="@+id/item_rate_shops"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_valorar"/>
+
+        <item
+            android:id="@+id/item_log_out"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_logout"/>
+    </group>
+    <group
+        android:id="@+id/admin_menu_group"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/item_view_suggestions"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/view_suggestions" />
+
+        <item
+            android:id="@+id/item_add_shop"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/add_shop" />
+
+        <item
+            android:id="@+id/item_edit_shop"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/edit_shop"/>
+
+        <item
+            android:id="@+id/item_delete_shop"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/delete_shop"/>
+
+        <item
+            android:id="@+id/item_delete_user"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/delete_user" />
+
+    </group>
+
+</menu>
