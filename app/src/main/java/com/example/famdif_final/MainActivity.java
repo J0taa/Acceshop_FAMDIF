@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     protected static final int PICK_IMAGE_REQUEST=1;
 
+    private GPSManager gpsManager;
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         databaseReference = FirebaseDatabase.getInstance("https://famdiffinal-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
+        gpsManager = new GPSManager(this);
 
 
 
@@ -191,6 +194,10 @@ public class MainActivity extends AppCompatActivity {
         changeMenu(MenuType.DISCONNECTED);
         setFragment(FragmentName.INDEX);
         mAuth.signOut();
+    }
+
+    public GPSManager getGpsManager() {
+        return gpsManager;
     }
 
 

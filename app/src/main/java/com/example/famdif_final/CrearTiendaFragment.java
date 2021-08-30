@@ -1,6 +1,7 @@
 package com.example.famdif_final;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,11 +23,14 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -36,6 +40,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CrearTiendaFragment extends BaseFragment {
     private static final String TAG = "log1";
@@ -191,18 +196,38 @@ public class CrearTiendaFragment extends BaseFragment {
         return view;
     }
 
-    private void getUbicacion() {
+    /*private void getUbicacion1() {
         ubicacion = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getMainActivity(), new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},1000);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getMainActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1000);
         }
-        Location loc = ubicacion.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if(ubicacion != null){
+        Location loc = ubicacion.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (ubicacion != null) {
             Log.d("Longitud", String.valueOf(loc.getLongitude()));
             Log.d("Latitud", String.valueOf(loc.getLatitude()));
             latitud.setText(String.valueOf(loc.getLatitude()));
             longitud.setText(String.valueOf(loc.getLongitude()));
+        }
+    }*/
+
+    @SuppressLint("MissingPermission")
+    private void getUbicacion() {
+        if (!getMainActivity().getGpsManager().checkPermissions()) {
+            getMainActivity().getGpsManager().requestPermissions();
+
+        } else {
+
+            getMainActivity().getGpsManager().getFusedLocationProviderClient().getLastLocation().addOnCompleteListener(getMainActivity(), new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        latitud.setText(Double.toString(task.getResult().getLatitude()));
+                        longitud.setText(Double.toString(task.getResult().getLongitude()));
+                    }
+                }
+            });
         }
     }
 
