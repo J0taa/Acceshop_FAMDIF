@@ -1,6 +1,7 @@
 package com.example.famdif_final;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +13,28 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.sql.ClientInfoStatus;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsFragment extends BaseFragment {
+
+    private List<Tienda>lista=new ArrayList<>();
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            lista=Controlador.getInstance().getShops();
+            for(Tienda t: lista) {
+                Log.i("LATITUD",t.getLatitud());
+                Log.i("LONGITUD",t.getLongitud());
+                LatLng sydney = new LatLng(Double.valueOf(t.getLatitud()),Double.valueOf(t.getLongitud()));
+                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marcador de prueba"));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            }
+
+
         }
     };
 

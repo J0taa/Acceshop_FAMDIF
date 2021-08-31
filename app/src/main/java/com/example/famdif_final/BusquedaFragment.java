@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class BusquedaFragment extends BaseFragment {
     private List<String> accesibilidad=Arrays.asList("ACCESIBLE", "ACCESIBLE CON DIFICULTAD","PRACTICABLE CON AYUDA","CUALQUIERA");
     private Button busqueda;
     private DatabaseReference resultado;
+    private List<Tienda> listaTiendas= new ArrayList<>();
 
 
 
@@ -158,6 +160,18 @@ public class BusquedaFragment extends BaseFragment {
                             for(DataSnapshot dato: snapshot.getChildren()){
                                 String name= dato.child("nombre").getValue().toString();
                                 Log.i("DATO", name);
+                                Tienda tienda = dato.getValue(Tienda.class);
+                                listaTiendas.add(tienda);
+                            }
+
+                            if(listaTiendas.isEmpty()){
+                                Toast.makeText(getContext(), "No existe ninguna tienda con las características seleccionadas",Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Controlador.getInstance().setShops(listaTiendas);
+                                getMainActivity().getSupportActionBar().setTitle("RESULTADOS");
+                                //getMainActivity().clearBackStack();
+                                getMainActivity().setFragment(FragmentName.MAP);
                             }
                         }
 

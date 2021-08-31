@@ -16,6 +16,8 @@ public class Tienda {
     private Date fechaRegistro;
     private Date fechaModificacion;
 
+    public Tienda(){}
+
     public Tienda(String id, String nombre, String tipo, String subtipo, String direccion, String accesibilidad, String latitud, String longitud, Date fechaRegistro, Date fechaModificacion) {
         this.id = id;
         this.nombre = nombre;
