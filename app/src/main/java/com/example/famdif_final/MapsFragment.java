@@ -10,6 +10,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -26,11 +28,18 @@ public class MapsFragment extends BaseFragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             lista=Controlador.getInstance().getShops();
+            Log.i("Tiendas Encontradas: ",String.valueOf(lista.size()));
             for(Tienda t: lista) {
-                Log.i("LATITUD",t.getLatitud());
-                Log.i("LONGITUD",t.getLongitud());
                 LatLng sydney = new LatLng(Double.valueOf(t.getLatitud()),Double.valueOf(t.getLongitud()));
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marcador de prueba"));
+
+                switch (t.getAccesibilidad()){
+                    case "ACCESIBLE":
+                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                        break;
+                    case "ACCESIBLE CON DIFICULTAD":
+                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                        break;
+                }
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
             }
 

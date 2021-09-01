@@ -147,8 +147,33 @@ public class BusquedaFragment extends BaseFragment {
         busqueda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(tTienda.matches("Cualquiera")){
+                    Query q=MainActivity.databaseReference.child("shops").orderByChild("nombre");
 
-                if((!tTienda.matches("Cualquiera")) && ( nombreTienda.getText().toString().isEmpty() || direccion.getText().toString().isEmpty()))
+                    q.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dato: snapshot.getChildren()){
+                                String name= dato.child("nombre").getValue().toString();
+                                Tienda tienda = dato.getValue(Tienda.class);
+                                listaTiendas.add(tienda);
+                            }
+                            if(listaTiendas.isEmpty()){
+                                Toast.makeText(getContext(), "No existe ninguna tienda con las características seleccionadas",Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Controlador.getInstance().setShops(listaTiendas);
+                                getMainActivity().getSupportActionBar().setTitle("RESULTADOS");
+                                getMainActivity().setFragment(FragmentName.MAP);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+
+                }
+                else if((!tTienda.matches("Cualquiera")) && ( nombreTienda.getText().toString().isEmpty() || direccion.getText().toString().isEmpty()))
                     Toast.makeText(getContext(), "El nombre y la dirección no pueden ser vacías",Toast.LENGTH_SHORT).show();
                 else{
 
@@ -159,7 +184,6 @@ public class BusquedaFragment extends BaseFragment {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for(DataSnapshot dato: snapshot.getChildren()){
                                 String name= dato.child("nombre").getValue().toString();
-                                Log.i("DATO", name);
                                 Tienda tienda = dato.getValue(Tienda.class);
                                 listaTiendas.add(tienda);
                             }
@@ -170,7 +194,6 @@ public class BusquedaFragment extends BaseFragment {
                             else{
                                 Controlador.getInstance().setShops(listaTiendas);
                                 getMainActivity().getSupportActionBar().setTitle("RESULTADOS");
-                                //getMainActivity().clearBackStack();
                                 getMainActivity().setFragment(FragmentName.MAP);
                             }
                         }
@@ -180,11 +203,6 @@ public class BusquedaFragment extends BaseFragment {
 
                         }
                     });
-
-                    //Toast.makeText(getContext(), "Iniciamos la busqueda",Toast.LENGTH_SHORT).show();
-                    //getMainActivity().getSupportActionBar().setTitle("RESULTADOS");
-                    //getMainActivity().clearBackStack();
-                    //getMainActivity().setFragment(FragmentName.MAP);
                 }
             }
         });
@@ -193,6 +211,20 @@ public class BusquedaFragment extends BaseFragment {
         getMainActivity().changeMenu(MenuType.USER_LOGGED);
         getMainActivity().setOptionMenu(R.id.item_search);
         return view;
+    }
+
+    public static double distanciaCoord(double lat1, double lng1, double lat2, double lng2) {
+        double radioTierra = 6371;//en kilómetros
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+        double sindLat = Math.sin(dLat / 2);
+        double sindLng = Math.sin(dLng / 2);
+        double va1 = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
+                * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
+        double va2 = 2 * Math.atan2(Math.sqrt(va1), Math.sqrt(1 - va1));
+        double distancia = radioTierra * va2;
+
+        return distancia;
     }
 
 
