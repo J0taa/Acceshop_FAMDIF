@@ -24,6 +24,8 @@ import java.util.List;
 public class MapsFragment extends BaseFragment {
 
     private List<Tienda>lista=new ArrayList<>();
+    private String seleccionada;
+    private Tienda tiendaAux;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -44,13 +46,17 @@ public class MapsFragment extends BaseFragment {
                 }
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
                 googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        Toast.makeText(getContext(), "Abriendo nueva vista...", Toast.LENGTH_SHORT).show();
+                        for (Tienda t:lista) {
+                            if(t.getNombre().matches(marker.getTitle()))
+                                Controlador.getInstance().setSelectedShop(t);
+                        }
+                        getMainActivity().setFragment(FragmentName.SEARCH_RESULT_DETAILS);
                     }
                 });
             }
-
 
         }
     };

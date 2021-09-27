@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/fragment_crear_tienda.xml" value="0.21739130434782608" />
+        <entry key="app/src/main/res/layout/fragment_suggestion.xml" value="0.12239583333333333" />
+        <entry key="app/src/main/res/layout/fragment_tienda_seleccionada.xml" value="0.12239583333333333" />
       </map>
     </option>
   </component>

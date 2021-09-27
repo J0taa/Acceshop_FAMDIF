@@ -174,7 +174,10 @@ public class MainActivity extends AppCompatActivity {
                 MapsFragment mapsFragment = new MapsFragment();
                 fragmentTransaction.replace(R.id.index_fragment, mapsFragment);
                 break;
-
+            case SEARCH_RESULT_DETAILS:
+                TiendaSeleccionadaFragment tiendaSeleccionadaFragment = new TiendaSeleccionadaFragment();
+                fragmentTransaction.replace(R.id.index_fragment, tiendaSeleccionadaFragment);
+                break;
 
         }
         ((FragmentTransaction) fragmentTransaction).addToBackStack(null);
