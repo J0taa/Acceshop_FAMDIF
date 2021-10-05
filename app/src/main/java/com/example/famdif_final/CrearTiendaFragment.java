@@ -263,16 +263,20 @@ public class CrearTiendaFragment extends BaseFragment {
     private void uploadFile(){
         if(mImageUri != null){
             //StorageReference storageReference = MainActivity.mStorageRef.child(System.currentTimeMillis() + "." +getFileExtension(mImageUri));
-            StorageReference storageReference = MainActivity.mStorageRef.child(id.getText().toString()+"_1" + "." +getFileExtension(mImageUri));
+            StorageReference storageReference = MainActivity.mStorageRef.child(id.getText().toString()+"_1" +
+                    "." +getFileExtension(mImageUri));
             storageReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Upload upload = new Upload(id.getText().toString()+"1", uri.toString());
+                        }
+                    });
                     Toast.makeText(getContext(), "Imagen subida", Toast.LENGTH_LONG).show();
-                    Upload upload = new Upload(nombreImagen.getText().toString().trim(), taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
-
                 }
             });
-
         }else{
             Toast.makeText(getContext(), "No se ha seleccionado imagen", Toast.LENGTH_LONG).show();
         }

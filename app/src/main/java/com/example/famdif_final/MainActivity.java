@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     protected static FirebaseAuth mAuth;
     protected static FirebaseFirestore db;
     protected static DatabaseReference databaseReference;
+    protected static DatabaseReference image;
     protected static StorageReference mStorageRef;
 
     protected static LocationManager locationManager;
@@ -45,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         databaseReference = FirebaseDatabase.getInstance("https://famdiffinal-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
-        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
+        image=FirebaseDatabase.getInstance("https://famdiffinal-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Uploads");
+        mStorageRef = FirebaseStorage.getInstance().getReference("Uploads");
         gpsManager = new GPSManager(this);
 
 

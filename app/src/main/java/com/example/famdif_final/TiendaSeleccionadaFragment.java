@@ -1,20 +1,32 @@
 package com.example.famdif_final;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 
 public class TiendaSeleccionadaFragment extends BaseFragment {
     private TextView tNombre;
@@ -27,7 +39,9 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
     private TextView subtipo;
     private TextView tAccesibilidad;
     private TextView accesibilidad;
-    private DatabaseReference databaseReference;
+    private ImageView imagen;
+    private DatabaseReference mDatabaseRef;
+    private StorageReference mStorageReference;
 
     private Tienda tiendaSeleccionada;
     @Override
@@ -39,6 +53,7 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         final View view = inflater.inflate(R.layout.fragment_tienda_seleccionada, container, false);
         getMainActivity().getSupportActionBar().setTitle("Búsqueda - "+tiendaSeleccionada.getNombre());
         Log.i("TiendaSeleccionada:",tiendaSeleccionada.getNombre());
+        obtenerImagen();
         tNombre=view.findViewById(R.id.idNombreTiendaSeleccionada);
         nombre=view.findViewById(R.id.nombreTiendaSeleccionada);
         nombre.setText(tiendaSeleccionada.getNombre());
@@ -54,8 +69,29 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         tAccesibilidad=view.findViewById(R.id.idAccesibilidadTiendaSeleccionada);
         accesibilidad=view.findViewById(R.id.accesibilidadTiendaSeleccionada);
         accesibilidad.setText(tiendaSeleccionada.getAccesibilidad());
-
+        imagen=view.findViewById(R.id.image_view_upload);
+        obtenerImagen();
         return view;
 
     }
+
+    private void obtenerImagen() {
+        mStorageReference = FirebaseStorage.getInstance().getReference("Uploads/"+tiendaSeleccionada.getId()+"_1.jpg");
+
+        try {
+            File localfile = File.createTempFile("tempfile", "jpg");
+            mStorageReference.getFile(localfile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
+                    imagen.setImageBitmap(bitmap);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }
