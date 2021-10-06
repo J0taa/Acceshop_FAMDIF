@@ -5,25 +5,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapsFragment extends BaseFragment {
 
     private List<Tienda>lista=new ArrayList<>();
+    private String snippet;
     private String seleccionada;
     private Tienda tiendaAux;
 
@@ -35,16 +33,21 @@ public class MapsFragment extends BaseFragment {
             Log.i("Tiendas Encontradas: ",String.valueOf(lista.size()));
             for(Tienda t: lista) {
                 LatLng sydney = new LatLng(Double.valueOf(t.getLatitud()),Double.valueOf(t.getLongitud()));
+                snippet=t.getDireccion() + "\n" +"\n" + t.getTipo() + " (" + t.getSubtipo()+")" + "\n" + "\n" +
+                        t.getAccesibilidad() + "\n";
 
                 switch (t.getAccesibilidad()){
                     case "ACCESIBLE":
-                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                         break;
                     case "ACCESIBLE CON DIFICULTAD":
                         googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                         break;
                 }
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+                googleMap.setInfoWindowAdapter(new MyInfoWindowAdapter(getContext()));
+
                 googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
                     @Override
