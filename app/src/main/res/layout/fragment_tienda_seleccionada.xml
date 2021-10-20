@@ -125,6 +125,17 @@
                 android:layout_height="200dp"
                 ></ImageView>
 
+            <Space
+                android:id="@+id/idEspacio3"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <ImageView
+                android:id="@+id/image_view_upload1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                ></ImageView>
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

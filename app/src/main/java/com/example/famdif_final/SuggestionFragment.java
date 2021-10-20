@@ -1,9 +1,6 @@
 package com.example.famdif_final;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,8 +51,8 @@ public class SuggestionFragment extends BaseFragment {
         suggestion.put("titulo",titulo.getText().toString());
         suggestion.put("cuerpo",cuerpo.getText().toString());
 
-        MainActivity.db.collection("suggestions")
-                .add(suggestion);
+        MainActivity.databaseReference.child("suggestions").child(String.valueOf(suggestion.hashCode())).setValue(suggestion);
+
 
     }
 }

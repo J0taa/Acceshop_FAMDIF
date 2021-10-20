@@ -24,12 +24,15 @@ public class MapsFragment extends BaseFragment {
     private String snippet;
     private String seleccionada;
     private Tienda tiendaAux;
+    private int result;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
             lista=Controlador.getInstance().getShops();
+            result=lista.size();
+            getMainActivity().getSupportActionBar().setTitle("BUSQUEDA - RESULTADOS ("+result+")");
             Log.i("Tiendas Encontradas: ",String.valueOf(lista.size()));
             for(Tienda t: lista) {
                 LatLng sydney = new LatLng(Double.valueOf(t.getLatitud()),Double.valueOf(t.getLongitud()));
@@ -67,6 +70,7 @@ public class MapsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
         setMainActivity((MainActivity) getActivity());
+        getMainActivity().getSupportActionBar().setTitle("BUSQUEDA - RESULTADOS ("+result+")");
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
 
         SupportMapFragment mapFragment =

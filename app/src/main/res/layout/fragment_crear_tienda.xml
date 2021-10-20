@@ -143,6 +143,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
 
+
+            <EditText
+                android:id="@+id/editTextImagen1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:hint="Nombre Imagen" />
+
+            <Button
+                android:id="@+id/btnCargarImagen1"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/imagen" />
+
+            <ImageView
+                android:id="@+id/imagenCargada1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
             <Button
                 android:id="@+id/btnCrearTienda"
                 android:layout_width="300dp"

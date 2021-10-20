@@ -37,6 +37,9 @@ import java.util.List;
 import java.util.Map;
 
 public class CrearTiendaFragment extends BaseFragment {
+    private static final String TAG = "log1";
+    private static final int PICK_IMAGE_1 = 1;
+    private static final int PICK_IMAGE_2 = 2;
     private EditText id;
     private EditText nombreTienda;
     private Spinner tipoTienda;
@@ -62,9 +65,13 @@ public class CrearTiendaFragment extends BaseFragment {
     private String accesibSeleccionada;
 
     private Button seleccionarImagenTienda;
+    private Button seleccionarImagenTienda1;
     private EditText nombreImagen;
+    private EditText nombreImagen1;
     private Uri mImageUri;
+    private Uri mImageUri1;
     private ImageView mImageView;
+    private ImageView mImageView1;
 
     private GoogleMap mMap;
     private LocationManager ubicacion;
@@ -97,6 +104,10 @@ public class CrearTiendaFragment extends BaseFragment {
         seleccionarImagenTienda = view.findViewById(R.id.btnCargarImagen);
         nombreImagen = view.findViewById(R.id.editTextImagen);
         mImageView = view.findViewById(R.id.imagenCargada);
+
+        seleccionarImagenTienda1 = view.findViewById(R.id.btnCargarImagen1);
+        nombreImagen1 = view.findViewById(R.id.editTextImagen1);
+        mImageView1 = view.findViewById(R.id.imagenCargada1);
 
 
         tTienda = new TipoTienda();
@@ -132,6 +143,13 @@ public class CrearTiendaFragment extends BaseFragment {
                 openFileChooser();
             }
 
+        });
+
+        seleccionarImagenTienda1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser2();
+            }
         });
 
 
@@ -222,7 +240,9 @@ public class CrearTiendaFragment extends BaseFragment {
         tienda.put("creacion", t.getFechaRegistro());
         tienda.put("modificacion", t.getFechaModificacion());
 
-        MainActivity.databaseReference.child("shops").child(String.valueOf(t.hashCode())).setValue(tienda);
+        //MainActivity.databaseReference.child("shops").child(String.valueOf(t.hashCode())).setValue(tienda);
+        MainActivity.db.collection("shops").document(id.getText().toString())
+        .set(tienda);
 
     }
 
@@ -231,20 +251,30 @@ public class CrearTiendaFragment extends BaseFragment {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-         startActivityForResult(intent,  MainActivity.PICK_IMAGE_REQUEST) ;
+         startActivityForResult(intent, PICK_IMAGE_1) ;
+    }
+
+    private void openFileChooser2(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_2);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode ==  MainActivity.PICK_IMAGE_REQUEST && resultCode == -1 && data != null && data.getData()!=null ){
-            mImageUri =data.getData();
-            Picasso.with(this.getContext()).load(mImageUri).into(mImageView);
-        }
+        if(requestCode ==  PICK_IMAGE_1 && resultCode == -1 && data != null && data.getData()!=null ){
+                mImageUri = data.getData();
+                Picasso.with(this.getContext()).load(mImageUri).into(mImageView);
+
+        }else if(requestCode ==  PICK_IMAGE_2 && resultCode == -1 && data != null && data.getData()!=null ) {
+                mImageUri1 = data.getData();
+                Picasso.with(this.getContext()).load(mImageUri1).into(mImageView1);
+            }
+
     }
-
-
 
     private String getFileExtension(Uri  uri){
         ContentResolver cR = getContext().getContentResolver();
@@ -274,4 +304,5 @@ public class CrearTiendaFragment extends BaseFragment {
             Toast.makeText(getContext(), "No se ha seleccionado imagen", Toast.LENGTH_LONG).show();
         }
     }
+
 }

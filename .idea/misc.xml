@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/layout/activity_images.xml" value="0.2341485507246377" />
         <entry key="app/src/main/res/layout/fragment_busqueda.xml" value="0.2341485507246377" />
         <entry key="app/src/main/res/layout/fragment_crear_tienda.xml" value="0.21739130434782608" />
+        <entry key="app/src/main/res/layout/fragment_my_suggestions.xml" value="0.23369565217391305" />
         <entry key="app/src/main/res/layout/fragment_suggestion.xml" value="0.12239583333333333" />
         <entry key="app/src/main/res/layout/fragment_tienda_seleccionada.xml" value="0.165" />
         <entry key="app/src/main/res/layout/image_item.xml" value="0.11778115501519756" />

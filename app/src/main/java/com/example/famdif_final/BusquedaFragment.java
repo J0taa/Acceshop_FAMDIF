@@ -1,7 +1,6 @@
 package com.example.famdif_final;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +9,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -146,6 +144,26 @@ public class BusquedaFragment extends BaseFragment {
 
         busqueda.setOnClickListener(new View.OnClickListener() {
             @Override
+            public void onClick(View view) {
+                if(tTienda.matches("Cualquiera")){
+                    MainActivity.db.collection("shops").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            for (QueryDocumentSnapshot doc: task.getResult()){
+                                Tienda tienda = doc.toObject(Tienda.class);
+                                listaTiendas.add(tienda);
+                            }
+                        }
+                    });
+                    Controlador.getInstance().setShops(listaTiendas);
+                    getMainActivity().getSupportActionBar().setTitle("RESULTADOS");
+                    getMainActivity().setFragment(FragmentName.MAP);
+                }
+            }
+        });
+        /*
+        busqueda.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 if(tTienda.matches("Cualquiera")){
                     Query q=MainActivity.databaseReference.child("shops").orderByChild("nombre");
@@ -205,7 +223,7 @@ public class BusquedaFragment extends BaseFragment {
                     });
                 }
             }
-        });
+        });*/
 
         getMainActivity().getSupportActionBar().setTitle("BUSQUEDA");
         getMainActivity().changeMenu(MenuType.USER_LOGGED);

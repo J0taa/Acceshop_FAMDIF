@@ -1,10 +1,7 @@
 package com.example.famdif_final;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,14 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -40,7 +30,7 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
     private TextView tAccesibilidad;
     private TextView accesibilidad;
     private ImageView imagen;
-    private DatabaseReference mDatabaseRef;
+    private ImageView imagen1;
     private StorageReference mStorageReference;
 
     private Tienda tiendaSeleccionada;
@@ -70,6 +60,7 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         accesibilidad=view.findViewById(R.id.accesibilidadTiendaSeleccionada);
         accesibilidad.setText(tiendaSeleccionada.getAccesibilidad());
         imagen=view.findViewById(R.id.image_view_upload);
+        imagen1=view.findViewById(R.id.image_view_upload1);
         obtenerImagen();
         return view;
 
@@ -85,6 +76,21 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
                     imagen.setImageBitmap(bitmap);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mStorageReference = FirebaseStorage.getInstance().getReference("Uploads/"+tiendaSeleccionada.getId()+"_2.jpg");
+
+        try {
+            File localfile1 = File.createTempFile("tempfile", "jpg");
+            mStorageReference.getFile(localfile1).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localfile1.getAbsolutePath());
+                    imagen1.setImageBitmap(bitmap);
                 }
             });
         } catch (IOException e) {
