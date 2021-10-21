@@ -226,8 +226,8 @@ public class BusquedaFragment extends BaseFragment {
         });*/
 
         getMainActivity().getSupportActionBar().setTitle("BUSQUEDA");
-        getMainActivity().changeMenu(MenuType.USER_LOGGED);
-        getMainActivity().setOptionMenu(R.id.item_search);
+        //getMainActivity().changeMenu(MenuType.USER_LOGGED);
+        //getMainActivity().setOptionMenu(R.id.item_search);
         return view;
     }
 

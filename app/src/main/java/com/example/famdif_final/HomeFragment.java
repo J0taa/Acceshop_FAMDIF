@@ -21,6 +21,7 @@ public class HomeFragment extends BaseFragment {
         setMainActivity((MainActivity) getActivity());
 
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
+        getMainActivity().getSupportActionBar().setTitle("HOME");
 
         Button search = view.findViewById(R.id.homeSearchButton);
         Button suggest = view.findViewById(R.id.homeSuggestionsButton);
@@ -63,12 +64,10 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        getMainActivity().getNavigationView().getMenu().clear();
-        getMainActivity().getNavigationView().inflateMenu(R.menu.home_menu);
-
-        //getMainActivity().getSupportActionBar().setTitle(R.string.home);
-        getMainActivity().changeMenu(MenuType.USER_LOGGED);
-        getMainActivity().getNavigationView().getMenu().findItem(R.id.item_home).setChecked(true);
+        //getMainActivity().getNavigationView().getMenu().clear();
+        //getMainActivity().getNavigationView().inflateMenu(R.menu.home_menu);
+        //getMainActivity().changeMenu(MenuType.USER_LOGGED);
+        //getMainActivity().getNavigationView().getMenu().findItem(R.id.item_home).setChecked(true);
 
         return view;
     }

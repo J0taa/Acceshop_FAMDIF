@@ -5,49 +5,66 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <ScrollView
-        android:layout_width="395dp"
-        android:layout_height="255dp"
-        android:layout_gravity="center">
+    <LinearLayout
+        android:layout_width="381dp"
+        android:layout_height="645dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <Space
+            android:id="@+id/idEspacio1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="40dp" />
 
-            <Button
-                android:id="@+id/homeSearchButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/menu_busqueda" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="256dp"
+            android:layout_height="244dp"
+            android:layout_gravity="center|top"
+            android:src="@drawable/imagenhome" />
 
-            <Button
-                android:id="@+id/homeSuggestionsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/menu_sugerencias" />
+        <Space
+            android:id="@+id/idEspacio2"
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
 
-            <Button
-                android:id="@+id/homeMySuggestionsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/menu_miSugerencias" />
+        <Button
+            android:id="@+id/homeSearchButton"
+            android:layout_width="340dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="@string/menu_busqueda" />
 
-            <Button
-                android:id="@+id/homeRateShopsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/menu_valorar" />
+        <Button
+            android:id="@+id/homeSuggestionsButton"
+            android:layout_width="340dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="@string/menu_sugerencias" />
 
-            <Button
-                android:id="@+id/homeLogOutButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/menu_logout" />
+        <Button
+            android:id="@+id/homeMySuggestionsButton"
+            android:layout_width="340dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="@string/menu_miSugerencias" />
+
+        <Button
+            android:id="@+id/homeRateShopsButton"
+            android:layout_width="340dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="@string/menu_valorar" />
+
+        <Button
+            android:id="@+id/homeLogOutButton"
+            android:layout_width="340dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="@string/menu_logout" />
 
 
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
 
 </FrameLayout>

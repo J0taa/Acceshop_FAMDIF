@@ -297,12 +297,28 @@ public class CrearTiendaFragment extends BaseFragment {
                             Upload upload = new Upload(id.getText().toString()+"1", uri.toString());
                         }
                     });
-                    Toast.makeText(getContext(), "Imagen subida", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(), "Imagen subida", Toast.LENGTH_LONG).show();
                 }
             });
-        }else{
-            Toast.makeText(getContext(), "No se ha seleccionado imagen", Toast.LENGTH_LONG).show();
         }
+        if(mImageUri1!=null){
+            StorageReference storageReference = MainActivity.mStorageRef.child(id.getText().toString()+"_2" +
+                    "." +getFileExtension(mImageUri1));
+            storageReference.putFile(mImageUri1).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Upload upload = new Upload(id.getText().toString()+"2", uri.toString());
+                        }
+                    });
+                    //Toast.makeText(getContext(), "Imagen subida", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        if(mImageUri1==null && mImageUri==null)
+            Toast.makeText(getContext(), "No se han seleccionado imagenes", Toast.LENGTH_LONG).show();
     }
 
 }

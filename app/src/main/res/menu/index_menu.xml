@@ -5,28 +5,28 @@
         <item
             android:id="@+id/item_index"
             android:checked="true"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_home"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/item_search"
             android:checked="true"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_search"
             android:title="@string/menu_busqueda" />
         <item
             android:id="@+id/item_sign_in"
             android:checked="true"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_registrar"
             android:title="@string/menu_registrar" />
         <item
             android:id="@+id/item_log_in"
             android:checked="true"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_acceder"
             android:title="@string/menu_acceder"/>
 
         <item
             android:id="@+id/item_about_us"
             android:checked="true"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_aboutus"
             android:title= "@string/menu_aboutus"/>
     </group>
 </menu>

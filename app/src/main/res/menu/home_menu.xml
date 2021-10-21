@@ -5,33 +5,33 @@
         <item
             android:id="@+id/item_home"
             android:checked="true"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_home"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/item_search"
             android:checked="true"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_search"
             android:title="@string/menu_busqueda" />
         <item
             android:id="@+id/item_suggestions"
             android:checked="true"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_sugerencia"
             android:title="@string/menu_sugerencias" />
         <item
             android:id="@+id/item_my_suggestions"
             android:checked="true"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_misugerencia"
             android:title="@string/menu_miSugerencias"/>
         <item
             android:id="@+id/item_rate_shops"
             android:checked="true"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_valorar"
             android:title="@string/menu_valorar"/>
 
         <item
             android:id="@+id/item_log_out"
             android:checked="true"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_logout"
             android:title="@string/menu_logout"/>
     </group>
 </menu>

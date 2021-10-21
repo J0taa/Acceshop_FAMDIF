@@ -1,5 +1,7 @@
 package com.example.famdif_final;
 
+import static com.example.famdif_final.R.id.item_sign_in;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +18,6 @@ import com.google.firebase.auth.AuthResult;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.example.famdif_final.MainActivity.databaseReference;
-import static com.example.famdif_final.R.id.item_sign_in;
 
 
 public class RegistrarFragment extends BaseFragment {
@@ -83,17 +82,13 @@ public class RegistrarFragment extends BaseFragment {
                             user.put("email",email.getText().toString());
                             user.put("pass",pass.getText().toString());
                             user.put("admin","0");
-                            //MainActivity.db.collection("users").document(email.getText().toString())
-                                    //.set(user);
-
-                            //REGISTRO NUEVA BBDD
-                           String ident=MainActivity.mAuth.getCurrentUser().getUid();
-                           databaseReference.child("users").child(ident).setValue(user);
+                            MainActivity.db.collection("users").document(email.getText().toString())
+                                    .set(user);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getMainActivity(), "Usuario inexistente o contraseña incorrecta. Por favor, vuelve a intentarlo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getMainActivity(), "Algo ha fallado, vuelve a intentarlo", Toast.LENGTH_SHORT).show();
                 }
             });
         }catch (Exception e){

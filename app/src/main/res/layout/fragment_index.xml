@@ -7,51 +7,54 @@
     tools:context=".IndexFragment"
     >
 
-    <ScrollView
-
-        android:layout_width="300dp"
-        android:layout_height="330dp"
-        android:layout_marginTop="172dp"
+    <LinearLayout
+        android:layout_width="383dp"
+        android:layout_height="517dp"
+        android:orientation="vertical"
         android:layout_gravity="center">
 
-        <LinearLayout
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="256dp"
+            android:layout_height="244dp"
+            android:layout_gravity="center|top"
+            android:src="@drawable/imagenhome" />
+
+        <Space
+            android:id="@+id/idEspacio1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="40dp"
+            />
 
+        <Button
+            android:id="@+id/indexSearchButton"
+            android:layout_width="340dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="@string/menu_busqueda" />
 
-            <Button
-                android:id="@+id/indexSearchButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/menu_busqueda" />
+        <Button
+            android:id="@+id/indexSignInButton"
+            android:layout_width="340dp"
+            android:layout_height="60dp"
+            android:text="@string/menu_registrar"
+            android:layout_gravity="center"/>
 
-            <Button
-                android:id="@+id/indexSignInButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/menu_registrar" />
+        <Button
+            android:id="@+id/indexLogInButton"
+            android:layout_width="340dp"
+            android:layout_height="60dp"
+            android:text="@string/menu_acced"
+            android:layout_gravity="center"/>
 
-            <Button
-                android:id="@+id/indexLogInButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/menu_acced" />
+        <Button
+            android:id="@+id/indexAboutUsButton"
+            android:layout_width="340dp"
+            android:layout_height="60dp"
+            android:text="@string/menu_aboutus"
+            android:layout_gravity="center"/>
 
-            <Button
-                android:id="@+id/indexAboutUsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/menu_aboutus" />
-
-        </LinearLayout>
-    </ScrollView>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="224dp"
-        android:layout_height="209dp"
-        android:layout_gravity="center|top"
-        android:src="@drawable/imagenhome" />
+    </LinearLayout>
 
 </FrameLayout>

@@ -41,9 +41,8 @@ public class MySuggestionsFragment extends BaseFragment {
         listaSugerencias.setAdapter(adapter);
 
         getMainActivity().getSupportActionBar().setTitle("MIS SUGERENCIAS");
-        getMainActivity().changeMenu(MenuType.USER_LOGGED);
-        getMainActivity().setOptionMenu(R.id.item_suggestions);
         getSugerencias(view);
+
         return view;
     }
     /*

@@ -1,5 +1,6 @@
 package com.example.famdif_final;
 
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -56,11 +57,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.index_toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_hamb);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_hamburguesa);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 

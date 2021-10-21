@@ -39,8 +39,7 @@ public class SuggestionFragment extends BaseFragment {
         });
 
         getMainActivity().getSupportActionBar().setTitle("ENVIAR SUGERENCIA");
-        getMainActivity().changeMenu(MenuType.USER_LOGGED);
-        getMainActivity().setOptionMenu(R.id.item_suggestions);
+
         return view;
 
     }

@@ -1,6 +1,5 @@
 package com.example.famdif_final;
 
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +28,6 @@ public class BaseFragment extends Fragment {
         this.mainActivity = mainActivity;
     }
 
-    /*
-    public void initLoadingDialog(String message) {
-        spotsDialog = new SpotsDialog(getActivity(), message, R.style.SpotDialogCustomStyle);
-        spotsDialog.show();
-    }*/
 
     public void endLoadingDialog() {
         if (spotsDialog != null && spotsDialog.isShowing()) {
