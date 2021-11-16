@@ -18,7 +18,7 @@ public class SubtipoTienda {
                 subtipoTienda.add("Quesería");
                 subtipoTienda.add("Suministros de café");
                 subtipoTienda.add("Suministros de té");
-                subtipoTienda.add("Supermercados");
+                subtipoTienda.add("Supermercado");
                 subtipoTienda.add("Tienda de bebidas");
                 subtipoTienda.add("Tienda de golosinas");
                 break;

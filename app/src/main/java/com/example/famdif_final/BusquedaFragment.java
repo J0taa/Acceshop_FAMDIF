@@ -166,7 +166,7 @@ public class BusquedaFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 tiendasEncontradas.clear();
-                if(tTienda.matches("CUALQUIERA")){
+                if(tTienda.matches("Cualquiera")){
                     busqueda2(despDistancia.getSelectedItem().toString(),despAccesibilidad.getSelectedItem().toString());
                 //}else if(nombreTienda.getText().toString().matches("") && direccion.getText().toString().matches("")){
                     //busqueda1(tTienda,stTienda,despDistancia.getSelectedItem().toString(),despAccesibilidad.getSelectedItem().toString());
@@ -444,10 +444,10 @@ public class BusquedaFragment extends BaseFragment {
                             if(task.isSuccessful()){
                                 for(QueryDocumentSnapshot document : task.getResult()){
                                     Tienda tienda = document.toObject(Tienda.class);
-                                    if(distancia.matches("Cualquiera") && accTemp==4){
+                                    if(distancia.matches("CUALQUIERA") && accTemp==4){
                                         Log.i("CASO_1","ENtramos en el caso 1");
                                         tiendasEncontradas.add(tienda);
-                                    }else if(distancia.matches("Cualquiera") && accTemp!=4){
+                                    }else if(distancia.matches("CUALQUIERA") && accTemp!=4){
                                         if(parsearAccesibilidadBBDD(tienda.getClasificacion())<=accTemp){
                                             Log.i("CASO_2","ENtramos en el caso 2");
                                             tiendasEncontradas.add(tienda);
@@ -478,9 +478,9 @@ public class BusquedaFragment extends BaseFragment {
                             if(task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()){
                                     Tienda tienda = document.toObject(Tienda.class);
-                                    if(distancia.matches("Cualquiera") && accTemp==4){
+                                    if(distancia.matches("CUALQUIERA") && accTemp==4){
                                         tiendasEncontradas.add(tienda);
-                                    }else if(distancia.matches("Cualquiera") && accTemp!=4){
+                                    }else if(distancia.matches("CUALQUIERA") && accTemp!=4){
                                         if(parsearAccesibilidadBBDD(tienda.getClasificacion())<=accTemp){
                                             tiendasEncontradas.add(tienda);
                                         }
@@ -510,9 +510,9 @@ public class BusquedaFragment extends BaseFragment {
                             if(task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()){
                                     Tienda tienda = document.toObject(Tienda.class);
-                                    if(distancia.matches("Cualquiera") && accTemp==4){
+                                    if(distancia.matches("CUALQUIERA") && accTemp==4){
                                         tiendasEncontradas.add(tienda);
-                                    }else if(distancia.matches("Cualquiera") && accTemp!=4){
+                                    }else if(distancia.matches("CUALQUIERA") && accTemp!=4){
                                         if(parsearAccesibilidadBBDD(tienda.getClasificacion())<=accTemp){
                                             tiendasEncontradas.add(tienda);
                                         }
@@ -539,11 +539,15 @@ public class BusquedaFragment extends BaseFragment {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()){
+                                    //Log.i("Longitud",document.get("longitud").toString());
+                                    Log.i("ID",document.get("id").toString());
+                                    Log.i("Tienda",document.toString());
                                     Tienda tienda = document.toObject(Tienda.class);
-                                    if(distancia.matches("Cualquiera") && accTemp==4){
+                                    if(distancia.matches("CUALQUIERA") && accTemp==4){
                                         tiendasEncontradas.add(tienda);
-                                    }else if(distancia.matches("Cualquiera") && accTemp!=4){
+                                    }else if(distancia.matches("CUALQUIERA") && accTemp!=4){
                                         if(parsearAccesibilidadBBDD(tienda.getClasificacion())<=accTemp){
+                                            Log.i("Entramos aqui...","entrando");
                                             tiendasEncontradas.add(tienda);
                                         }
                                     }else{

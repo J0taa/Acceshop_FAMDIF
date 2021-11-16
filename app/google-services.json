@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "212697632833-it2mfntpcv7m1l2jlhj6fl0blobjl0qp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.acceshop",
+            "certificate_hash": "a731759bc7234898ffa197dbc4384b51ea8de823"
+          }
+        },
+        {
           "client_id": "212697632833-iuh76jl2d2mki6t390nilijb0c4ljiru.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -43,6 +51,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "212697632833-6pf942cophekgmcsb9v70tr90lum1ppq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.famdif_final",
+            "certificate_hash": "a731759bc7234898ffa197dbc4384b51ea8de823"
+          }
+        },
         {
           "client_id": "212697632833-iuh76jl2d2mki6t390nilijb0c4ljiru.apps.googleusercontent.com",
           "client_type": 3

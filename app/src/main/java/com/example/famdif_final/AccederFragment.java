@@ -24,7 +24,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -49,7 +49,7 @@ public class AccederFragment extends BaseFragment {
 
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("212697632833-iuh76jl2d2mki6t390nilijb0c4ljiru.apps.googleusercontent.com")
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -126,36 +126,30 @@ public class AccederFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RC_SIGN_IN){
-            Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(accountTask);
-                //firebaseAutWithGoogleAccount(account);
+        if(requestCode == RC_SIGN_IN){
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try{
+                GoogleSignInAccount acount = task.getResult(ApiException.class);
+                firebaseAutWithGoogleAccount(acount.getIdToken());
+            }catch (Exception e){
+                Log.i("Error autenticando con google",e.getMessage());
+            }
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> accountTask){
+
+    private void firebaseAutWithGoogleAccount(String idToken){
         try {
-            GoogleSignInAccount account = accountTask.getResult(ApiException.class);
-
-            // Signed in successfully, show authenticated UI.
-            getMainActivity().setFragment(FragmentName.HOME);
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.i("signInResult:failed code=",e.getMessage());
-        }
-
-    }
-
-    private void firebaseAutWithGoogleAccount(GoogleSignInAccount account){
-        try {
-            AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+            AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
             MainActivity.mAuth.signInWithCredential(credential)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            FirebaseUser user = MainActivity.mAuth.getCurrentUser();
-
+                            Controlador.getInstance().setCurrentUser(FirebaseAuth.getInstance().getCurrentUser());
+                            getMainActivity().getSupportActionBar().setTitle("HOME");
+                            getMainActivity().clearBackStack();
+                            getMainActivity().setFragment(FragmentName.HOME);
+                            getMainActivity().changeMenu(MenuType.USER_LOGGED);
                         }
 
                     });

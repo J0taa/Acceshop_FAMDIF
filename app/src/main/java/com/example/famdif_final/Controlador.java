@@ -2,13 +2,15 @@ package com.example.famdif_final;
 
 import android.location.Location;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Controlador {
     private static Controlador instance;
     private List<Tienda> tiendas = new ArrayList<>();
-    //private User currentUser;
+    private FirebaseUser currentUser;
     //private List<Tienda> tiendas;
     private Tienda selectedShop;
     private Location currentPosition;
@@ -44,6 +46,14 @@ public class Controlador {
 
     public double getLongitud() {
         return longitud;
+    }
+
+    FirebaseUser getCurrentUser(){
+        return currentUser;
+    }
+
+    void setCurrentUser(FirebaseUser user){
+        this.currentUser=user;
     }
 
     /*public User getCurrentUser() {

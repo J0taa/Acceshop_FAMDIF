@@ -5,6 +5,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -236,6 +237,10 @@ public class MainActivity extends AppCompatActivity {
         changeMenu(MenuType.DISCONNECTED);
         setFragment(FragmentName.INDEX);
         mAuth.signOut();
+        Toast.makeText(this, "Hasta la proxima "+Controlador.getInstance().getCurrentUser().getEmail().toString(),Toast.LENGTH_LONG).show();
+        Log.i("Usuario", Controlador.getInstance().getCurrentUser().getEmail());
+        FirebaseAuth.getInstance().signOut();
+
     }
 
     public GPSManager getGpsManager() {
