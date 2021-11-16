@@ -68,6 +68,7 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         imagen=view.findViewById(R.id.image_view_upload);
         imagen1=view.findViewById(R.id.image_view_upload1);
 
+        //puntuaciones
         valorarTienda=view.findViewById(R.id.btnValorar);
         ratingBar=view.findViewById(R.id.ratingBar);
         puntuacionObtenida=view.findViewById(R.id.idPuntuacionObtenida);
