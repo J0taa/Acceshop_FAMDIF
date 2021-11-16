@@ -21,7 +21,7 @@
     <string name="email">Email</string>
     <string name="contraseña">Contraseña</string>
     <string name="repetir_contraseña">Repetir Contraseña</string>
-    <string name="Nombre">Nombre</string>
+    <string name="Nombre">Nombre:</string>
     <string name="home_valorar">Valorar Establecimiento</string>
     <string name="home_sugerencia">Realizar Sugerencia</string>
     <string name="home_logout">Desconectar</string>
@@ -43,4 +43,5 @@
     <string name="message">Mensaje</string>
     <string name="titulo">Titulo:</string>
     <string name="mensaje">Mensaje:</string>
+    <string name="Identificador">Identificador:</string>
 </resources>

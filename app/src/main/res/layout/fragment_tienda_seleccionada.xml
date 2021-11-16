@@ -62,7 +62,7 @@
                 android:id="@+id/idTipoEstablecimientoSeleccionado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tipo de Establecimiento"
+                android:text="Tipo de Establecimiento:"
                 android:textSize="20dp"
                 android:textStyle="bold"/>
 
@@ -82,7 +82,7 @@
                 android:id="@+id/idSubtipoEstablecimientoSeleccionado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Subtipo de establecimiento"
+                android:text="Subtipo de establecimiento:"
                 android:textSize="20dp"
                 android:textStyle="bold"/>
 
@@ -115,10 +115,71 @@
                 android:textSize="20dp"/>
 
             <Space
-                android:id="@+id/idEspacio3"
+                android:id="@+id/idEspacio2"
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
-            
+
+            <TextView
+                android:id="@+id/idPuntuacionTienda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Puntuación:"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+            <Space
+                android:id="@+id/idEspacio2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5" />
+
+                <Button
+                    android:id="@+id/btnValorar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Valorar" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/idPuntuacionObtenida"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <Space
+                android:id="@+id/idEspacio9"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/idImagenesTienda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Imagenes del establecimiento:"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+
+            <Space
+                android:id="@+id/idEspacio4"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
             <ImageView
                 android:id="@+id/image_view_upload"
                 android:layout_width="match_parent"
@@ -126,7 +187,7 @@
                 ></ImageView>
 
             <Space
-                android:id="@+id/idEspacio3"
+                android:id="@+id/idEspacio6"
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
 
@@ -136,6 +197,21 @@
                 android:layout_height="200dp"
                 ></ImageView>
 
+            <Space
+                android:id="@+id/idEspacio7"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <Button
+                android:id="@+id/btnEditarTienda"
+                android:layout_width="340dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:text="Editar tienda"
+                android:visibility="invisible" />
+
         </LinearLayout>
+
+
     </ScrollView>
 </FrameLayout>

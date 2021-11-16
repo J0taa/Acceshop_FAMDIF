@@ -1,15 +1,22 @@
 package com.example.famdif_final;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -20,37 +27,54 @@ import java.util.List;
 
 public class MapsFragment extends BaseFragment {
 
-    private List<Tienda>lista=new ArrayList<>();
+    private List<Tienda> lista=new ArrayList<>();
+    private List<Tienda> borrar=new ArrayList<>();
     private String snippet;
-    private String seleccionada;
-    private Tienda tiendaAux;
     private int result;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            lista=Controlador.getInstance().getShops();
+            for (Tienda t:Controlador.getInstance().getShops()) {
+                lista.add(t);
+            }
             result=lista.size();
+            Controlador.getInstance().getShops().clear();
             getMainActivity().getSupportActionBar().setTitle("BUSQUEDA - RESULTADOS ("+result+")");
+
             Log.i("Tiendas Encontradas: ",String.valueOf(lista.size()));
             for(Tienda t: lista) {
                 LatLng sydney = new LatLng(Double.valueOf(t.getLatitud()),Double.valueOf(t.getLongitud()));
-                snippet=t.getDireccion() + "\n" +"\n" + t.getTipo() + " (" + t.getSubtipo()+")" + "\n" + "\n" +
-                        t.getAccesibilidad() + "\n";
 
-                switch (t.getAccesibilidad()){
-                    case "ACCESIBLE":
-                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                snippet=t.getDireccion() + "\n" +"\n" + t.getTipo() + " (" + t.getSubtipo()+")" + "\n" + "\n" +
+                        t.getClasificacion() + "\n";
+
+                //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                switch (t.getClasificacion()){
+                    case "A":
+                        //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon();
+                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(bitmapDescriptorFromVector(getMainActivity(), R.drawable.ic_marcador_a)));
                         break;
-                    case "ACCESIBLE CON DIFICULTAD":
-                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    case "B":
+                        //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(bitmapDescriptorFromVector(getMainActivity(), R.drawable.ic_marcador_b)));
+
+                        break;
+                    case "C":
+                        //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(bitmapDescriptorFromVector(getMainActivity(), R.drawable.ic_marcador_c)));
+                        break;
+                    case "D":
+                        //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(bitmapDescriptorFromVector(getMainActivity(), R.drawable.ic_marcador_d)));
+                        break;
+                    default:
                         break;
                 }
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,15f));
                 googleMap.setInfoWindowAdapter(new MyInfoWindowAdapter(getContext()));
-
                 googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
                     @Override
@@ -67,6 +91,8 @@ public class MapsFragment extends BaseFragment {
         }
     };
 
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
         setMainActivity((MainActivity) getActivity());
@@ -79,6 +105,15 @@ public class MapsFragment extends BaseFragment {
             mapFragment.getMapAsync(callback);
         }
         return view;
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
 }

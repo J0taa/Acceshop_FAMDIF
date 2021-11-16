@@ -1,6 +1,8 @@
 package com.example.famdif_final;
 
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,12 @@ public class MySuggestionsFragment extends BaseFragment {
     private ListView listaSugerencias;
     private List<String> titulosSugerencias=new ArrayList<>();
     private ArrayAdapter adapter;
+
+
+    private static final Spanned autor = Html.fromHtml("<b>Autor: </b>");
+    private static final Spanned titulo = Html.fromHtml("<b>Titulo: </b>");
+    private static final Spanned detalles = Html.fromHtml("<b>Detalles: </b>");
+
 
     private static final String TAG = "MyActivity";
     private String cadena;
@@ -49,10 +57,11 @@ public class MySuggestionsFragment extends BaseFragment {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 for (QueryDocumentSnapshot doc : task.getResult()) {
-                    titulosSugerencias.add("-Titulo: " + doc.getString("titulo").toString() + "\n" + "\n"
-                            + "-Autor: " + doc.getString("autor") + "\n" + "\n"
-                            + "-Detalles: " + doc.getString("cuerpo"));
+                    titulosSugerencias.add(titulo + doc.getString("titulo").toString() + "\n" + "\n"
+                            + autor + doc.getString("autor") + "\n" + "\n"
+                            + detalles + doc.getString("cuerpo"));
                     adapter.notifyDataSetChanged();
+
                 }
 
             }

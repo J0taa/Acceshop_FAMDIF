@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,9 +31,13 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
     private TextView subtipo;
     private TextView tAccesibilidad;
     private TextView accesibilidad;
+    private TextView puntuacionObtenida;
     private ImageView imagen;
     private ImageView imagen1;
     private StorageReference mStorageReference;
+    private Button btnEditarTienda;
+    private Button valorarTienda;
+    private RatingBar ratingBar;
 
     private Tienda tiendaSeleccionada;
     @Override
@@ -58,13 +64,42 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         subtipo.setText(tiendaSeleccionada.getSubtipo());
         tAccesibilidad=view.findViewById(R.id.idAccesibilidadTiendaSeleccionada);
         accesibilidad=view.findViewById(R.id.accesibilidadTiendaSeleccionada);
-        accesibilidad.setText(tiendaSeleccionada.getAccesibilidad());
+        accesibilidad.setText(tiendaSeleccionada.getClasificacion());
         imagen=view.findViewById(R.id.image_view_upload);
         imagen1=view.findViewById(R.id.image_view_upload1);
+
+        valorarTienda=view.findViewById(R.id.btnValorar);
+        ratingBar=view.findViewById(R.id.ratingBar);
+        puntuacionObtenida=view.findViewById(R.id.idPuntuacionObtenida);
+
+        btnEditarTienda=view.findViewById(R.id.btnEditarTienda);
+        if(Controlador.getInstance().getAdmin()==1){
+            btnEditarTienda.setVisibility(View.VISIBLE);
+            btnEditarTienda.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getMainActivity().getSupportActionBar().setTitle("EDITAR TIENDA - "+tiendaSeleccionada.getNombre());
+                    getMainActivity().setFragment(FragmentName.EDIT_SHOP);
+                }
+            });
+        }
+
+        valorarTienda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                puntuacionObtenida.setText("Puntuación: "+ratingBar.getRating());
+            }
+        });
+
+
+
         obtenerImagen();
         return view;
 
     }
+
+
+
 
     private void obtenerImagen() {
         mStorageReference = FirebaseStorage.getInstance().getReference("Uploads/"+tiendaSeleccionada.getId()+"_1.jpg");

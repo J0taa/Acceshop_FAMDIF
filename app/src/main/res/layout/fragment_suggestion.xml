@@ -7,8 +7,8 @@
     tools:context=".SuggestionFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="355dp"
-        android:layout_height="234dp"
+        android:layout_width="352dp"
+        android:layout_height="247dp"
         android:layout_gravity="center">
 
 
@@ -16,15 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:layout_editor_absoluteX="58dp"
-            tools:layout_editor_absoluteY="31dp">
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="100dp">
 
-            <EditText
+            <TextView
                 android:id="@+id/idTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/titulo"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/textoTitulo"
@@ -33,12 +33,17 @@
                 android:ems="10"
                 android:inputType="textPersonName" />
 
-            <EditText
+            <Space
+                android:id="@+id/idEspacio1"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <TextView
                 android:id="@+id/tituloMensaje"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/mensaje"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/mensajeCuerpo"
@@ -47,10 +52,16 @@
                 android:ems="10"
                 android:inputType="textPersonName" />
 
+            <Space
+                android:id="@+id/idEspacio3"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
             <Button
                 android:id="@+id/btnEnviarSugerencia"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="340dp"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom"
                 android:text="Enviar Sugerencia" />
         </LinearLayout>
 

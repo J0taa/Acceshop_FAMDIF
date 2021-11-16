@@ -2,6 +2,7 @@ package com.example.famdif_final;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -34,9 +36,6 @@ public class AccederFragment extends BaseFragment {
 
     private static final int RC_SIGN_IN=100;
     private GoogleSignInClient googleSignInClient;
-
-
-
 
 
     public  AccederFragment() {
@@ -102,6 +101,7 @@ public class AccederFragment extends BaseFragment {
                                 public void onSuccess(DocumentSnapshot ds) {
                                     if(ds.get("admin").toString().contains("1")) {
                                         getMainActivity().changeMenu(MenuType.ADMIN_LOGGED);
+                                        Controlador.getInstance().setAdmin(1);
                                     }else
                                         getMainActivity().changeMenu(MenuType.USER_LOGGED);
                                 }
@@ -128,32 +128,43 @@ public class AccederFragment extends BaseFragment {
 
         if (requestCode == RC_SIGN_IN){
             Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                GoogleSignInAccount account = accountTask.getResult(ApiException.class);
-                firebaseAutWithGoogleAccount(account);
-            }catch (Exception e){
-
-            }
+            handleSignInResult(accountTask);
+                //firebaseAutWithGoogleAccount(account);
         }
     }
 
-    private void firebaseAutWithGoogleAccount(GoogleSignInAccount account){
+    private void handleSignInResult(Task<GoogleSignInAccount> accountTask){
+        try {
+            GoogleSignInAccount account = accountTask.getResult(ApiException.class);
 
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        MainActivity.mAuth.signInWithCredential(credential)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        FirebaseUser user = MainActivity.mAuth.getCurrentUser();
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
+            // Signed in successfully, show authenticated UI.
+            getMainActivity().setFragment(FragmentName.HOME);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.i("signInResult:failed code=",e.getMessage());
+        }
 
     }
+
+    private void firebaseAutWithGoogleAccount(GoogleSignInAccount account){
+        try {
+            AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+            MainActivity.mAuth.signInWithCredential(credential)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            FirebaseUser user = MainActivity.mAuth.getCurrentUser();
+
+                        }
+
+                    });
+
+        }catch (Exception e){
+            e.getMessage();
+        }
+
+
+    }
+
 }

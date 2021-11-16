@@ -11,7 +11,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 public class GPSManager {
-    private static final int GPS_PERMISSIONS_CODE = 1000;
+    private static final int GPS_PERMISSIONS_CODE = 1;
 
     private AppCompatActivity activity;
     private FusedLocationProviderClient fusedLocationProviderClient;

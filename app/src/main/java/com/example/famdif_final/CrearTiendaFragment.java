@@ -234,7 +234,7 @@ public class CrearTiendaFragment extends BaseFragment {
         tienda.put("tipo", t.getTipo());
         tienda.put("subtipo", t.getSubtipo());
         tienda.put("direccion", t.getDireccion());
-        tienda.put("accesibilidad", t.getAccesibilidad());
+        tienda.put("accesibilidad", t.getClasificacion());
         tienda.put("latitud", t.getLatitud());
         tienda.put("longitud", t.getLongitud());
         tienda.put("creacion", t.getFechaRegistro());

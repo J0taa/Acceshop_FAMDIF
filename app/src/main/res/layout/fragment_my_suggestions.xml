@@ -9,6 +9,7 @@
         android:id="@+id/idLista"
         android:layout_width="wrap_content"
         android:layout_height="539dp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        />
 
 </FrameLayout>

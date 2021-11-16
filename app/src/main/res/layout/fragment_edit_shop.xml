@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditShopFragment">
+
+    <ScrollView
+        android:layout_width="370dp"
+        android:layout_height="580dp"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/idIdentificador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Identificador" />
+
+            <EditText
+                android:id="@+id/idIdentificadorTienda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <Space
+                android:id="@+id/idEspacio1"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/idNombreTienda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Nombre" />
+
+            <EditText
+                android:id="@+id/textoNombreTienda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <Space
+                android:id="@+id/idEspacio2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+
+            <TextView
+                android:id="@+id/idDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dirección:" />
+
+            <EditText
+                android:id="@+id/textoDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <Space
+                android:id="@+id/idEspacio"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/tipoEstablecimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipo de Establecimiento:" />
+
+
+            <Spinner
+                android:id="@+id/desplegableTipoEstablecimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:id="@+id/idEspacio"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/subtipoEstablecimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Subtipo de Establecimiento:" />
+
+            <Spinner
+                android:id="@+id/desplegablesubtipoEstablecimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:id="@+id/idEspacio"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/idAccesibilidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Accesibilidad Minima:" />
+
+            <Spinner
+                android:id="@+id/desplegableAccesibilidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/idImagenesTienda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Imagenes del establecimiento:"
+                />
+
+            <Space
+                android:id="@+id/idEspacio6"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <ImageView
+                android:id="@+id/image_view_upload"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                ></ImageView>
+
+            <Space
+                android:id="@+id/idEspacio6"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <ImageView
+                android:id="@+id/image_view_upload1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                ></ImageView>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</FrameLayout>

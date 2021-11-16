@@ -5,6 +5,10 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.24537037037037038" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.24537037037037038" />
+        <entry key="app/src/main/res/drawable/ic_marcador_a.xml" value="0.14114583333333333" />
+        <entry key="app/src/main/res/drawable/ic_marcador_b.xml" value="0.14010416666666667" />
+        <entry key="app/src/main/res/drawable/ic_marcador_c.xml" value="0.14114583333333333" />
+        <entry key="app/src/main/res/drawable/ic_marcador_d.xml" value="0.14114583333333333" />
         <entry key="app/src/main/res/drawable/ic_menu_aboutus.xml" value="0.24537037037037038" />
         <entry key="app/src/main/res/drawable/ic_menu_camera.xml" value="0.24537037037037038" />
         <entry key="app/src/main/res/drawable/ic_menu_gallery.xml" value="0.24537037037037038" />
@@ -15,8 +19,10 @@
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/activity_images.xml" value="0.2341485507246377" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23007246376811594" />
+        <entry key="app/src/main/res/layout/fragment_about_us.xml" value="0.23958333333333334" />
         <entry key="app/src/main/res/layout/fragment_busqueda.xml" value="0.2341485507246377" />
         <entry key="app/src/main/res/layout/fragment_crear_tienda.xml" value="0.21739130434782608" />
+        <entry key="app/src/main/res/layout/fragment_edit_shop.xml" value="0.23958333333333334" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.16510416666666666" />
         <entry key="app/src/main/res/layout/fragment_index.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_my_suggestions.xml" value="0.23369565217391305" />

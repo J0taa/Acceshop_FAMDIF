@@ -2,19 +2,27 @@ package com.example.famdif_final;
 
 import android.location.Location;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Controlador {
     private static Controlador instance;
+    private List<Tienda> tiendas = new ArrayList<>();
     //private User currentUser;
-    private List<Tienda> tiendas;
+    //private List<Tienda> tiendas;
     private Tienda selectedShop;
     private Location currentPosition;
+
+
+
+    private double latitud;
+    private double longitud;
     //private List<Suggestion> suggestions;
     //private List<ItemMyRating> lastRatings;
     //private List<ItemFilterUserResponse> itemFilterUserResponses;
     private Tienda lastShop;
     private String lastId, lastName, lastAddress;
+    private int admin=0;
 
     private Controlador() {
     }
@@ -28,6 +36,14 @@ public class Controlador {
 
     public static void setInstance(Controlador instance) {
         Controlador.instance = instance;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
     }
 
     /*public User getCurrentUser() {
@@ -69,6 +85,7 @@ public class Controlador {
     public void setCurrentPosition(Location currentPosition) {
         this.currentPosition = currentPosition;
     }
+
 
     /*public List<ItemMyRating> getLastRatings() {
         return lastRatings;
@@ -125,5 +142,21 @@ public class Controlador {
 
     public void setLastAddress(String lastAddress) {
         this.lastAddress = lastAddress;
+    }
+
+    public int getAdmin(){
+        return admin;
+    }
+
+    public void setAdmin(int adm){
+        admin=adm;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public void setLongitud(double latitud) {
+        this.latitud = latitud;
     }
 }

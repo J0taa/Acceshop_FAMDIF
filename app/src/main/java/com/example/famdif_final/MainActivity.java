@@ -41,15 +41,19 @@ public class MainActivity extends AppCompatActivity {
 
     private GPSManager gpsManager;
 
+    protected static Controlador controlador;
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
+        controlador=Controlador.getInstance();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         databaseReference = FirebaseDatabase.getInstance("https://famdiffinal-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
         image=FirebaseDatabase.getInstance("https://famdiffinal-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Uploads");
         mStorageRef = FirebaseStorage.getInstance().getReference("Uploads");
         gpsManager = new GPSManager(this);
+        Controlador.getInstance().getCurrentPosition();
 
 
 
@@ -121,11 +125,37 @@ public class MainActivity extends AppCompatActivity {
                                 setFragment(FragmentName.INDEX);
                                 break;
 
+                            case R.id.item_home:
+                                setFragment(FragmentName.HOME);
+                                break;
+
                             case R.id.item_log_in:
                                 setFragment(FragmentName.LOG_IN);
+                                break;
 
                             case R.id.item_add_shop:
                                 setFragment(FragmentName.ADD_SHOP);
+                                break;
+
+                            case R.id.item_search:
+                                setFragment(FragmentName.SEARCH);
+                                break;
+
+                            case R.id.item_suggestions:
+                                setFragment(FragmentName.SUGGESTIONS);
+                                break;
+
+                            case R.id.item_my_suggestions:
+                                setFragment(FragmentName.MY_SUGGESTIONS);
+                                break;
+
+                            case R.id.item_log_out:
+                                logOut();
+                                break;
+
+                            case R.id.item_sign_in:
+                                setFragment(FragmentName.SIGN_IN);
+                                break;
                         }
 
                         drawerLayout.closeDrawer(GravityCompat.START);
@@ -181,6 +211,11 @@ public class MainActivity extends AppCompatActivity {
             case SEARCH_RESULT_DETAILS:
                 TiendaSeleccionadaFragment tiendaSeleccionadaFragment = new TiendaSeleccionadaFragment();
                 fragmentTransaction.replace(R.id.index_fragment, tiendaSeleccionadaFragment);
+                break;
+
+            case EDIT_SHOP:
+                EditShopFragment editShopFragment = new EditShopFragment();
+                fragmentTransaction.replace(R.id.index_fragment,editShopFragment);
                 break;
 
         }
