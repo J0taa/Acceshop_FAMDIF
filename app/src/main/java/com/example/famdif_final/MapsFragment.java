@@ -43,49 +43,52 @@ public class MapsFragment extends BaseFragment {
             Controlador.getInstance().getShops().clear();
             getMainActivity().getSupportActionBar().setTitle("BUSQUEDA - RESULTADOS ("+result+")");
 
-            Log.i("Tiendas Encontradas: ",String.valueOf(lista.size()));
             for(Tienda t: lista) {
-                LatLng sydney = new LatLng(Double.valueOf(t.getLatitud()),Double.valueOf(t.getLongitud()));
+                if(t.getClasificacion()!=null && t.getLatitud()!=null && t.getLongitud()!=null) {
+                    LatLng sydney = new LatLng(Double.valueOf(t.getLatitud()), Double.valueOf(t.getLongitud()));
 
-                snippet=t.getDireccion() + "\n" +"\n" + t.getTipo() + " (" + t.getSubtipo()+")" + "\n" + "\n" +
-                        t.getClasificacion() + "\n";
+                    snippet = t.getDireccion() + "\n" + "\n" + t.getTipo() + " (" + t.getSubtipo() + ")" + "\n" + "\n" +
+                            t.getClasificacion() + "\n";
 
-                //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                switch (t.getClasificacion()){
-                    case "A":
-                        //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon();
-                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(bitmapDescriptorFromVector(getMainActivity(), R.drawable.ic_marcador_a)));
-                        break;
-                    case "B":
-                        //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(bitmapDescriptorFromVector(getMainActivity(), R.drawable.ic_marcador_b)));
+                    //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    Log.i("ID - CLASIFICACION ", t.getId() + " " + t.getClasificacion());
+                    switch (t.getClasificacion()) {
+                        case "A":
+                            //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon();
+                            googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(bitmapDescriptorFromVector(getMainActivity(), R.drawable.ic_marcador_a)));
+                            break;
+                        case "B":
+                            //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                            googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(bitmapDescriptorFromVector(getMainActivity(), R.drawable.ic_marcador_b)));
 
-                        break;
-                    case "C":
-                        //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(bitmapDescriptorFromVector(getMainActivity(), R.drawable.ic_marcador_c)));
-                        break;
-                    case "D":
-                        //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-                        googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(bitmapDescriptorFromVector(getMainActivity(), R.drawable.ic_marcador_d)));
-                        break;
-                    default:
-                        break;
-                }
-
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,15f));
-                googleMap.setInfoWindowAdapter(new MyInfoWindowAdapter(getContext()));
-                googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-
-                    @Override
-                    public void onInfoWindowClick(Marker marker) {
-                        for (Tienda t:lista) {
-                            if(t.getNombre().matches(marker.getTitle()))
-                                Controlador.getInstance().setSelectedShop(t);
-                        }
-                        getMainActivity().setFragment(FragmentName.SEARCH_RESULT_DETAILS);
+                            break;
+                        case "C":
+                            //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                            googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(bitmapDescriptorFromVector(getMainActivity(), R.drawable.ic_marcador_c)));
+                            break;
+                        case "D":
+                            //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                            googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(bitmapDescriptorFromVector(getMainActivity(), R.drawable.ic_marcador_d)));
+                            break;
+                        default:
+                            googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                            break;
                     }
-                });
+
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15f));
+                    googleMap.setInfoWindowAdapter(new MyInfoWindowAdapter(getContext()));
+                    googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+                            for (Tienda t : lista) {
+                                if (t.getNombre().matches(marker.getTitle()))
+                                    Controlador.getInstance().setSelectedShop(t);
+                            }
+                            getMainActivity().setFragment(FragmentName.SEARCH_RESULT_DETAILS);
+                        }
+                    });
+                }
             }
 
         }

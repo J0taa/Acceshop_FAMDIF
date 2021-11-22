@@ -11,14 +11,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class TiendaSeleccionadaFragment extends BaseFragment {
     private TextView tNombre;
@@ -38,6 +49,10 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
     private Button btnEditarTienda;
     private Button valorarTienda;
     private RatingBar ratingBar;
+    private int contVotos;
+    private double puntTotal;
+    private PhotoViewAttacher foto;
+    private PhotoViewAttacher foto2;
 
     private Tienda tiendaSeleccionada;
     @Override
@@ -48,7 +63,6 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_tienda_seleccionada, container, false);
         getMainActivity().getSupportActionBar().setTitle("Búsqueda - "+tiendaSeleccionada.getNombre());
-        Log.i("TiendaSeleccionada:",tiendaSeleccionada.getNombre());
         obtenerImagen();
         tNombre=view.findViewById(R.id.idNombreTiendaSeleccionada);
         nombre=view.findViewById(R.id.nombreTiendaSeleccionada);
@@ -67,9 +81,17 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         accesibilidad.setText(tiendaSeleccionada.getClasificacion());
         imagen=view.findViewById(R.id.image_view_upload);
         imagen1=view.findViewById(R.id.image_view_upload1);
+        foto= new PhotoViewAttacher(imagen);
+        foto2= new PhotoViewAttacher(imagen1);
+
 
         //puntuaciones
+
         valorarTienda=view.findViewById(R.id.btnValorar);
+        valorarTienda.setVisibility(View.INVISIBLE);
+        if(Controlador.getInstance().getUsuario()!=null){
+            valorarTienda.setVisibility(View.VISIBLE);
+        }
         ratingBar=view.findViewById(R.id.ratingBar);
         puntuacionObtenida=view.findViewById(R.id.idPuntuacionObtenida);
 
@@ -88,22 +110,87 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         valorarTienda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                puntuacionObtenida.setText("Puntuación: "+ratingBar.getRating());
+                realizarVotacion();
             }
         });
 
-
-
         obtenerImagen();
+        obtenerPuntuacion();
         return view;
 
     }
 
+    private void realizarVotacion() {
+        Map<String, Object> v = new HashMap<>();
+        Votacion nuevaVotacion = new Votacion(Controlador.getInstance().getUsuario(),Controlador.getInstance().getSelectedShop().getId(),String.valueOf(ratingBar.getRating()));
+        MainActivity.db.collection("votaciones")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()){
+                            Votacion votacion = document.toObject(Votacion.class);
+                            if(document.getId().matches(nuevaVotacion.getEmail()+nuevaVotacion.getId())){
+                                if(votacion.getPuntuacion().matches(nuevaVotacion.getPuntuacion())){
+                                    Toast.makeText(getContext(), "Ya tiene una votación con" +
+                                            " la misma puntuación", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    MainActivity.db.collection("votaciones")
+                                            .document(document.getId())
+                                            .update("puntuacion",nuevaVotacion.getPuntuacion());
+                                    Toast.makeText(getContext(), "Se ha actualizado la nueva puntuación", Toast.LENGTH_SHORT).show();
+                                }
 
+                            }else{
+                                Map<String, Object> v = new HashMap<>();
+                                v.put("id",nuevaVotacion.getId());
+                                v.put("email",nuevaVotacion.getEmail());
+                                v.put("puntuacion",nuevaVotacion.getPuntuacion());
+
+                                MainActivity.db.collection("votaciones").document(nuevaVotacion.getEmail()+nuevaVotacion.getId())
+                                        .set(v);
+                            }
+
+                        }
+                        obtenerPuntuacion();
+                    }
+
+                });
+
+    }
+
+    private void obtenerPuntuacion() {
+        Log.i("Entramos a obtener puntuacion","PUNTUACION");
+        puntTotal=0;
+        contVotos=0;
+        MainActivity.db.collection("votaciones")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()){
+                            Votacion votacion = document.toObject(Votacion.class);
+                            if(votacion.getId().toString().matches(tiendaSeleccionada.getId())) {
+                                Log.i("Se cumple condicion",votacion.getId().toString() +" - "+ tiendaSeleccionada.getId());
+                                contVotos++;
+                                puntTotal += Double.valueOf(votacion.getPuntuacion());
+                                Log.i("Votacion encontrada",String.valueOf(puntTotal));
+                            }
+
+                        }
+                        ratingBar.setRating((float) puntTotal/contVotos);
+                        puntuacionObtenida.setText("Puntuación: "+ratingBar.getRating()+" - "+contVotos+" votos");
+                    }
+
+                });
+
+
+
+    }
 
 
     private void obtenerImagen() {
-        mStorageReference = FirebaseStorage.getInstance().getReference("Uploads/"+tiendaSeleccionada.getId()+"_1.jpg");
+        mStorageReference = FirebaseStorage.getInstance().getReference("/"+tiendaSeleccionada.getId()+"_A.jpg");
 
         try {
             File localfile = File.createTempFile("tempfile", "jpg");
@@ -112,13 +199,14 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
                     imagen.setImageBitmap(bitmap);
+                    foto.update();
                 }
             });
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        mStorageReference = FirebaseStorage.getInstance().getReference("Uploads/"+tiendaSeleccionada.getId()+"_2.jpg");
+        mStorageReference = FirebaseStorage.getInstance().getReference("/"+tiendaSeleccionada.getId()+"_B.jpg");
 
         try {
             File localfile1 = File.createTempFile("tempfile", "jpg");
@@ -127,6 +215,7 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(localfile1.getAbsolutePath());
                     imagen1.setImageBitmap(bitmap);
+                    foto2.update();
                 }
             });
         } catch (IOException e) {

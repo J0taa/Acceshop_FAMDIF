@@ -49,7 +49,7 @@ public class AccederFragment extends BaseFragment {
 
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.default_web_client_id))  //ignorar error
                 .requestEmail()
                 .build();
 
@@ -102,8 +102,11 @@ public class AccederFragment extends BaseFragment {
                                     if(ds.get("admin").toString().contains("1")) {
                                         getMainActivity().changeMenu(MenuType.ADMIN_LOGGED);
                                         Controlador.getInstance().setAdmin(1);
+                                        Controlador.getInstance().setUsuario(ds.get("email").toString());
+
                                     }else
                                         getMainActivity().changeMenu(MenuType.USER_LOGGED);
+                                    Controlador.getInstance().setUsuario(ds.get("email").toString());
                                 }
                             });
                             getMainActivity().getSupportActionBar().setTitle("HOME");
@@ -146,6 +149,7 @@ public class AccederFragment extends BaseFragment {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Controlador.getInstance().setCurrentUser(FirebaseAuth.getInstance().getCurrentUser());
+                            Controlador.getInstance().setUsuario(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                             getMainActivity().getSupportActionBar().setTitle("HOME");
                             getMainActivity().clearBackStack();
                             getMainActivity().setFragment(FragmentName.HOME);

@@ -44,4 +44,9 @@
     <string name="titulo">Titulo:</string>
     <string name="mensaje">Mensaje:</string>
     <string name="Identificador">Identificador:</string>
+    <string name="dialog_message">¿Esta seguro de que quiere cerrar sesión?</string>
+    <string name="dialog_title">Cerrando sesión</string>
+    <string name="si">Aceptar</string>
+    <string name="dialog_message_confirmar_sugerencia">¿Está seguro de querer enviar la sugerencia?</string>
+    <string name="dialog_title_confirmar_sugerencia">Confirmar envío de sugerencia</string>
 </resources>

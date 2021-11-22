@@ -1,16 +1,17 @@
 package com.example.famdif_final;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -233,13 +234,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void logOut() {
-        Toast.makeText(this,"Hasta la proxima  "+mAuth.getCurrentUser().getEmail().toString(),Toast.LENGTH_SHORT).show();
-        changeMenu(MenuType.DISCONNECTED);
-        setFragment(FragmentName.INDEX);
-        mAuth.signOut();
-        Toast.makeText(this, "Hasta la proxima "+Controlador.getInstance().getCurrentUser().getEmail().toString(),Toast.LENGTH_LONG).show();
-        Log.i("Usuario", Controlador.getInstance().getCurrentUser().getEmail());
-        FirebaseAuth.getInstance().signOut();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.dialog_message)
+                .setTitle(R.string.dialog_title);
+        builder.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                changeMenu(MenuType.DISCONNECTED);
+                setFragment(FragmentName.INDEX);
+                if(mAuth!=null){
+                    Toast.makeText(getBaseContext(), "Hasta la proxima "+Controlador.getInstance().getUsuario(),Toast.LENGTH_LONG).show();
+                    mAuth.signOut();
+                }
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
     }
 

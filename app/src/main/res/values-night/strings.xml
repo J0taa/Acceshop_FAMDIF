@@ -23,4 +23,7 @@
     <string name="send_suggestion">Enviar sugerencia</string>
     <string name="message">Mensaje</string>
     <string name="mensaje">Mensaje:</string>
+    <string name="dialog_message">¿Esta seguro de que quiere salir de la aplicación?</string>
+    <string name="dialog_message_confirmar_sugerencia">¿Está seguro de querer enviar la sugerencia?</string>
+    <string name="dialog_title_confirmar_sugerencia">Confirmar envío de sugerencia</string>
 </resources>

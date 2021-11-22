@@ -251,7 +251,7 @@ public class BusquedaFragment extends BaseFragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Tienda tienda = document.toObject(Tienda.class);
                                 if(tienda.getDireccion().contains(direccion.getText().toString())){
-                                    if (distancia.matches("CUAKQUIERA") && accTemp == 4) {
+                                    if (distancia.matches("CUALQUIERA") && accTemp == 4) {
                                         tiendasEncontradas.add(tienda);
                                     } else if (distancia.matches("CUALQUIERA") && accTemp != 4) {
                                         if (parsearAccesibilidadBBDD(tienda.getClasificacion()) <= accTemp) {

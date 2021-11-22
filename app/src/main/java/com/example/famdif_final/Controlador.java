@@ -14,6 +14,7 @@ public class Controlador {
     //private List<Tienda> tiendas;
     private Tienda selectedShop;
     private Location currentPosition;
+    private String usuario;
 
 
 
@@ -54,6 +55,14 @@ public class Controlador {
 
     void setCurrentUser(FirebaseUser user){
         this.currentUser=user;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getUsuario() {
+        return usuario;
     }
 
     /*public User getCurrentUser() {
