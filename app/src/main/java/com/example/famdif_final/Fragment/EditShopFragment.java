@@ -1,4 +1,4 @@
-package com.example.famdif_final;
+package com.example.famdif_final.Fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +11,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.example.famdif_final.Controlador;
+import com.example.famdif_final.Fragment.BaseFragment;
+import com.example.famdif_final.MainActivity;
+import com.example.famdif_final.R;
+import com.example.famdif_final.SubtipoTienda;
+import com.example.famdif_final.Tienda;
+import com.example.famdif_final.TipoTienda;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -35,11 +42,13 @@ public class EditShopFragment extends BaseFragment {
     private EditText identificador;
     private EditText nombreTienda;
     private EditText direccion;
+    private EditText acceso;
+    private EditText puertaAcceso;
 
     private ImageView imagen1;
     private ImageView imagen2;
 
-    private List<String> accesibilidad= Arrays.asList("ACCESIBLE", "ACCESIBLE CON DIFICULTAD","PRACTICABLE CON AYUDA","CUALQUIERA");
+    private List<String> accesibilidad= Arrays.asList("A-ACCESIBLE", "B-ACCESIBLE CON DIFICULTAD","C-PRACTICABLE CON AYUDA","D-CUALQUIERA");
 
 
     public EditShopFragment() {
@@ -51,11 +60,13 @@ public class EditShopFragment extends BaseFragment {
                              Bundle savedInstanceState) {
 
         setMainActivity((MainActivity) getActivity());
-        tienda=Controlador.getInstance().getSelectedShop();
+        tienda= Controlador.getInstance().getSelectedShop();
         final View view = inflater.inflate(R.layout.fragment_edit_shop, container, false);
         tipoTienda=view.findViewById(R.id.desplegableTipoEstablecimiento);
         subtipoTienda=view.findViewById(R.id.desplegablesubtipoEstablecimiento);
         despAccesibilidad=view.findViewById(R.id.desplegableAccesibilidad);
+        acceso=view.findViewById(R.id.editarTiendaAcceso);
+        puertaAcceso=view.findViewById(R.id.editarTiendaPuertaAcceso);
 
 
         tipoTiendaLista = new TipoTienda();
@@ -79,6 +90,8 @@ public class EditShopFragment extends BaseFragment {
         nombreTienda.setText(tienda.getNombre());
         direccion=view.findViewById(R.id.textoDireccion);
         direccion.setText(tienda.getDireccion());
+        acceso.setText(tienda.getAcceso());
+        puertaAcceso.setText(tienda.getPuertaAcceso());
 
         imagen1=view.findViewById(R.id.image_view_upload);
         imagen2=view.findViewById(R.id.image_view_upload1);

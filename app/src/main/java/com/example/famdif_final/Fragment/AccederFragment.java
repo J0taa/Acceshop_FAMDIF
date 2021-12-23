@@ -1,4 +1,4 @@
-package com.example.famdif_final;
+package com.example.famdif_final.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.famdif_final.Controlador;
+import com.example.famdif_final.FragmentName;
+import com.example.famdif_final.MainActivity;
+import com.example.famdif_final.MenuType;
+import com.example.famdif_final.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -22,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +36,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 public class AccederFragment extends BaseFragment {
     private EditText email;
-    private  EditText pass;
+    private TextInputLayout email1;
+    private TextInputLayout pass1;
+    //private  EditText pass;
     private Button btn;
     private Button btnGoogle;
 
@@ -61,8 +69,9 @@ public class AccederFragment extends BaseFragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_acceder, container, false);
 
-        email = view.findViewById(R.id.accederTextEmail);
-        pass = view.findViewById(R.id.accederTextPass);
+        //email = view.findViewById(R.id.idEmailUsuario);
+        email1 = view.findViewById(R.id.accederTextEmail);
+        pass1 = view.findViewById(R.id.accederTextPassw);
 
         btn = view.findViewById(R.id.accederBtnLogin);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -91,22 +100,27 @@ public class AccederFragment extends BaseFragment {
 
     private void logInClick(View v) {
         try {
-            MainActivity.mAuth.signInWithEmailAndPassword(email.getText().toString(),pass.getText().toString())
+            MainActivity.mAuth.signInWithEmailAndPassword(email1.getEditText().getText().toString(),pass1.getEditText().getText().toString())
                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
 
-                            MainActivity.db.collection("users").document(email.getText().toString()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            MainActivity.db.collection("users").document(email1.getEditText().getText().toString()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot ds) {
                                     if(ds.get("admin").toString().contains("1")) {
                                         getMainActivity().changeMenu(MenuType.ADMIN_LOGGED);
                                         Controlador.getInstance().setAdmin(1);
                                         Controlador.getInstance().setUsuario(ds.get("email").toString());
+                                        Controlador.getInstance().setNombreUsuarioActual(ds.get("nombre").toString());
+                                        Log.i("USUARIO", Controlador.getInstance().getNombreUsuarioActual());
 
-                                    }else
+                                    }else {
                                         getMainActivity().changeMenu(MenuType.USER_LOGGED);
-                                    Controlador.getInstance().setUsuario(ds.get("email").toString());
+                                        Controlador.getInstance().setUsuario(ds.get("email").toString());
+                                        Controlador.getInstance().setNombreUsuarioActual(ds.get("nombre").toString());
+                                        Log.i("USUARIO", Controlador.getInstance().getNombreUsuarioActual());
+                                    }
                                 }
                             });
                             getMainActivity().getSupportActionBar().setTitle("HOME");
@@ -150,12 +164,12 @@ public class AccederFragment extends BaseFragment {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Controlador.getInstance().setCurrentUser(FirebaseAuth.getInstance().getCurrentUser());
                             Controlador.getInstance().setUsuario(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                            Controlador.getInstance().setNombreUsuarioActual(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                             getMainActivity().getSupportActionBar().setTitle("HOME");
                             getMainActivity().clearBackStack();
                             getMainActivity().setFragment(FragmentName.HOME);
                             getMainActivity().changeMenu(MenuType.USER_LOGGED);
                         }
-
                     });
 
         }catch (Exception e){

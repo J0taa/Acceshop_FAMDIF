@@ -1,7 +1,8 @@
-package com.example.famdif_final;
+package com.example.famdif_final.Fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+
+import com.example.famdif_final.Controlador;
+import com.example.famdif_final.Fragment.BaseFragment;
+import com.example.famdif_final.MainActivity;
+import com.example.famdif_final.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,9 +56,19 @@ public class SuggestionFragment extends BaseFragment {
 
     private void enviarSugerencia(View view) {
         Map<String, Object> suggestion = new HashMap<>();
-        suggestion.put("autor",MainActivity.mAuth.getCurrentUser().getEmail().toString());
-        suggestion.put("titulo",titulo.getText().toString());
-        suggestion.put("cuerpo",cuerpo.getText().toString());
+
+        if(Controlador.getInstance().getNombreUsuarioActual()==null) {
+            suggestion.put("email", MainActivity.mAuth.getCurrentUser().getEmail().toString());
+            suggestion.put("autor", MainActivity.mAuth.getCurrentUser().getDisplayName());
+            suggestion.put("titulo", titulo.getText().toString());
+            suggestion.put("cuerpo", cuerpo.getText().toString());
+        }else{
+            Log.i("primer caso", "DENTRO DEL PRIMER CASO");
+            suggestion.put("email", Controlador.getInstance().getUsuario());
+            suggestion.put("autor", Controlador.getInstance().getNombreUsuarioActual());
+            suggestion.put("titulo", titulo.getText().toString());
+            suggestion.put("cuerpo", cuerpo.getText().toString());
+        }
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getMainActivity());
@@ -61,9 +77,9 @@ public class SuggestionFragment extends BaseFragment {
         builder.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                MainActivity.db.collection("suggestions").document(MainActivity.mAuth.getCurrentUser().getEmail())
+                MainActivity.db.collection("suggestions")
+                        .document(MainActivity.mAuth.getCurrentUser().getEmail()+suggestion.get("titulo").toString())
                         .set(suggestion);
-
                 }
 
         });

@@ -50,17 +50,6 @@
             android:icon="@drawable/ic_menu_nuevatienda"
             android:title="@string/add_shop" />
 
-        <item
-            android:id="@+id/item_edit_shop"
-            android:checked="true"
-            android:icon="@drawable/ic_menu_editartienda"
-            android:title="@string/edit_shop"/>
-
-        <item
-            android:id="@+id/item_delete_shop"
-            android:checked="true"
-            android:icon="@drawable/ic_menu_borrartienda"
-            android:title="@string/delete_shop"/>
 
         <item
             android:id="@+id/item_delete_user"

@@ -1,4 +1,4 @@
-package com.example.famdif_final;
+package com.example.famdif_final.Fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,7 +15,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.famdif_final.Controlador;
+import com.example.famdif_final.Fragment.BaseFragment;
+import com.example.famdif_final.FragmentName;
+import com.example.famdif_final.MainActivity;
+import com.example.famdif_final.R;
+import com.example.famdif_final.Tienda;
+import com.example.famdif_final.Votacion;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -43,23 +51,32 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
     private TextView tAccesibilidad;
     private TextView accesibilidad;
     private TextView puntuacionObtenida;
+    private TextView acceso;
+    private TextView puertaAcceso;
+    private TextView fechaCreacion;
+    private TextView fechaModificacion;
+    private TextView idPuntTienda;
     private ImageView imagen;
     private ImageView imagen1;
     private StorageReference mStorageReference;
     private Button btnEditarTienda;
     private Button valorarTienda;
+    private Button btnEliminarTienda;
     private RatingBar ratingBar;
+    private RatingBar ratingBarMedium;
     private int contVotos;
     private double puntTotal;
+    private double mipuntuacion;
     private PhotoViewAttacher foto;
     private PhotoViewAttacher foto2;
+    private TextView puntuacionMediaObtenida;
 
     private Tienda tiendaSeleccionada;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setMainActivity((MainActivity) getActivity());
-        tiendaSeleccionada=Controlador.getInstance().getSelectedShop();
+        tiendaSeleccionada= Controlador.getInstance().getSelectedShop();
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_tienda_seleccionada, container, false);
         getMainActivity().getSupportActionBar().setTitle("Búsqueda - "+tiendaSeleccionada.getNombre());
@@ -78,25 +95,47 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         subtipo.setText(tiendaSeleccionada.getSubtipo());
         tAccesibilidad=view.findViewById(R.id.idAccesibilidadTiendaSeleccionada);
         accesibilidad=view.findViewById(R.id.accesibilidadTiendaSeleccionada);
-        accesibilidad.setText(tiendaSeleccionada.getClasificacion());
+        accesibilidad.setText(tiendaSeleccionada.getClasificacion()+" - "+parsearAccesibilidadBBDD(tiendaSeleccionada.getClasificacion()));
+        acceso=view.findViewById(R.id.idAccesoObtenido);
+        acceso.setText(tiendaSeleccionada.getAcceso());
+        puertaAcceso=view.findViewById(R.id.idPuertaObtenida);
+        puertaAcceso.setText(tiendaSeleccionada.getPuertaAcceso());
+        fechaCreacion=view.findViewById(R.id.idFechaCreacionObtenida);
+        fechaCreacion.setText(tiendaSeleccionada.getFechaVisita());
+        idPuntTienda=view.findViewById(R.id.idPuntuacionTienda);
+
         imagen=view.findViewById(R.id.image_view_upload);
         imagen1=view.findViewById(R.id.image_view_upload1);
+
         foto= new PhotoViewAttacher(imagen);
         foto2= new PhotoViewAttacher(imagen1);
 
+        ratingBarMedium=view.findViewById(R.id.ratingBarMed);
+        puntuacionMediaObtenida=view.findViewById(R.id.idPuntuacionMediaObtenida);
 
-        //puntuaciones
-
-        valorarTienda=view.findViewById(R.id.btnValorar);
-        valorarTienda.setVisibility(View.INVISIBLE);
-        if(Controlador.getInstance().getUsuario()!=null){
-            valorarTienda.setVisibility(View.VISIBLE);
-        }
         ratingBar=view.findViewById(R.id.ratingBar);
         puntuacionObtenida=view.findViewById(R.id.idPuntuacionObtenida);
 
+        btnEliminarTienda=view.findViewById(R.id.btnEliminarTienda);
         btnEditarTienda=view.findViewById(R.id.btnEditarTienda);
-        if(Controlador.getInstance().getAdmin()==1){
+        valorarTienda=view.findViewById(R.id.btnValorar);
+        valorarTienda.setVisibility(View.INVISIBLE);
+        ratingBar.setVisibility(View.INVISIBLE);
+        puntuacionObtenida.setVisibility(View.INVISIBLE);
+        idPuntTienda.setVisibility(View.INVISIBLE);
+        btnEliminarTienda.setVisibility(View.INVISIBLE);
+
+        if(Controlador.getInstance().getUsuario()!=null){
+            if(Controlador.getInstance().getAdmin()==1){
+                btnEliminarTienda.setVisibility(View.VISIBLE);
+            }
+            valorarTienda.setVisibility(View.VISIBLE);
+            ratingBar.setVisibility(View.VISIBLE);
+            puntuacionObtenida.setVisibility(View.VISIBLE);
+            idPuntTienda.setVisibility(View.VISIBLE);
+        }
+
+        if(Controlador.getInstance().getUsuario()!=null){
             btnEditarTienda.setVisibility(View.VISIBLE);
             btnEditarTienda.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,11 +153,18 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
             }
         });
 
+        btnEliminarTienda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {eliminarTienda();}
+        });
+
         obtenerImagen();
         obtenerPuntuacion();
+        Log.i("TIENDA ",tiendaSeleccionada.getAcceso()+" "+tiendaSeleccionada.getPuertaAcceso());
         return view;
 
     }
+
 
     private void realizarVotacion() {
         Map<String, Object> v = new HashMap<>();
@@ -163,6 +209,7 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         Log.i("Entramos a obtener puntuacion","PUNTUACION");
         puntTotal=0;
         contVotos=0;
+        mipuntuacion=0;
         MainActivity.db.collection("votaciones")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -171,15 +218,17 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
                         for (QueryDocumentSnapshot document : task.getResult()){
                             Votacion votacion = document.toObject(Votacion.class);
                             if(votacion.getId().toString().matches(tiendaSeleccionada.getId())) {
-                                Log.i("Se cumple condicion",votacion.getId().toString() +" - "+ tiendaSeleccionada.getId());
+                                if(Controlador.getInstance().getUsuario()!=null && votacion.getEmail().matches(Controlador.getInstance().getUsuario())){
+                                    mipuntuacion=Double.valueOf(votacion.getPuntuacion());
+                                }
                                 contVotos++;
                                 puntTotal += Double.valueOf(votacion.getPuntuacion());
-                                Log.i("Votacion encontrada",String.valueOf(puntTotal));
                             }
-
                         }
-                        ratingBar.setRating((float) puntTotal/contVotos);
-                        puntuacionObtenida.setText("Puntuación: "+ratingBar.getRating()+" - "+contVotos+" votos");
+                        ratingBarMedium.setRating((float) puntTotal/contVotos);
+                        puntuacionMediaObtenida.setText("Puntuación: "+ratingBarMedium.getRating()+" - "+contVotos+" votos");
+                        ratingBar.setRating((float) mipuntuacion);
+                        puntuacionObtenida.setText("Puntuación: "+ratingBar.getRating() );
                     }
 
                 });
@@ -221,6 +270,85 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    private String parsearAccesibilidadBBDD(String accesMin){
+        String cadena="";
+        switch (accesMin){
+            case "A":
+                cadena="ACCESIBLE";
+                break;
+            case "B":
+                cadena="ACCESIBLE CON DIFICULTAD";
+                break;
+            case "C":
+                cadena="PRACTICABLE CON AYUDA";
+                break;
+            case "D":
+                cadena="MALA ACCESIBILIDAD";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + accesMin);
+        }
+        return cadena;
+    }
+
+    private void eliminarTienda() {
+        MainActivity.db.collection("votaciones")
+                .whereEqualTo("id",tiendaSeleccionada.getId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                                MainActivity.db.collection("votaciones")
+                                        .document(documentSnapshot.getId())
+                                        .delete()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                            }
+                                        });
+                            }
+
+                        }
+                    }
+                });
+
+        MainActivity.db.collection("comerciosElCarmenTest")
+                .whereEqualTo("id",tiendaSeleccionada.getId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for (QueryDocumentSnapshot document : task.getResult()){
+                                MainActivity.db.collection("comerciosElCarmenTest")
+                                        .document(document.getId())
+                                        .delete()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.i("Error borrando la tienda", e.getMessage());
+                                        Toast.makeText(getContext(),"No se ha podido borrar la tienda",Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
+                            }
+                        }
+                    }
+                });
+
+        Toast.makeText(getContext(),"Se ha borrado la tienda correctamente",Toast.LENGTH_LONG).show();
+        getMainActivity().setFragment(FragmentName.HOME);
+        getMainActivity().clearBackStack();
 
     }
 

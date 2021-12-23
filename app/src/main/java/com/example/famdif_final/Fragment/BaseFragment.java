@@ -1,4 +1,4 @@
-package com.example.famdif_final;
+package com.example.famdif_final.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+
+import com.example.famdif_final.MainActivity;
 
 public class BaseFragment extends Fragment {
     private AlertDialog spotsDialog;

@@ -1,4 +1,4 @@
-package com.example.famdif_final;
+package com.example.famdif_final.Fragment;
 
 import android.os.Bundle;
 
@@ -6,6 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.example.famdif_final.Fragment.BaseFragment;
+import com.example.famdif_final.FragmentName;
+import com.example.famdif_final.MainActivity;
+import com.example.famdif_final.R;
 
 public class HomeFragment extends BaseFragment {
 

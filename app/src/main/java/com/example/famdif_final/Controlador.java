@@ -10,12 +10,18 @@ import java.util.List;
 public class Controlador {
     private static Controlador instance;
     private List<Tienda> tiendas = new ArrayList<>();
+    private List<Usuario> usuarios =new ArrayList<>();
+    private List<UsuarioFiltrado> usuariosBorrar = new ArrayList<>();
     private FirebaseUser currentUser;
     //private List<Tienda> tiendas;
     private Tienda selectedShop;
     private Location currentPosition;
     private String usuario;
-
+    private String usuarioBorrar;
+    private String sugerenciasUsuario;
+    private String nombreUsuarioActual;
+    private String nombreTiendaValorar="";
+    private String direccionTiendaValorar="";
 
 
     private double latitud;
@@ -53,7 +59,7 @@ public class Controlador {
         return currentUser;
     }
 
-    void setCurrentUser(FirebaseUser user){
+    public void setCurrentUser(FirebaseUser user){
         this.currentUser=user;
     }
 
@@ -64,6 +70,7 @@ public class Controlador {
     public String getUsuario() {
         return usuario;
     }
+
 
     /*public User getCurrentUser() {
         return currentUser;
@@ -105,31 +112,46 @@ public class Controlador {
         this.currentPosition = currentPosition;
     }
 
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public String getUsuarioBorrar() {
+        return usuarioBorrar;
+    }
+
+    public void setUsuarioBorrar(String usuarioBorrar) {
+        this.usuarioBorrar = usuarioBorrar;
+    }
 
     /*public List<ItemMyRating> getLastRatings() {
-        return lastRatings;
-    }
+                        return lastRatings;
+                    }
 
-    public void setLastRatings(List<ItemMyRating> lastRatings) {
-        this.lastRatings = lastRatings;
-    }
+                    public void setLastRatings(List<ItemMyRating> lastRatings) {
+                        this.lastRatings = lastRatings;
+                    }
 
-    public List<ItemFilterUserResponse> getItemFilterUserResponses() {
-        return itemFilterUserResponses;
-    }
+                    public List<ItemFilterUserResponse> getItemFilterUserResponses() {
+                        return itemFilterUserResponses;
+                    }
 
-    public void setItemFilterUserResponses(List<ItemFilterUserResponse> itemFilterUserResponses) {
-        this.itemFilterUserResponses = itemFilterUserResponses;
-    }
+                    public void setItemFilterUserResponses(List<ItemFilterUserResponse> itemFilterUserResponses) {
+                        this.itemFilterUserResponses = itemFilterUserResponses;
+                    }
 
-    public List<Suggestion> getSuggestions() {
-        return suggestions;
-    }
+                    public List<Suggestion> getSuggestions() {
+                        return suggestions;
+                    }
 
-    public void setSuggestions(List<Suggestion> suggestions) {
-        this.suggestions = suggestions;
-    }
-    */
+                    public void setSuggestions(List<Suggestion> suggestions) {
+                        this.suggestions = suggestions;
+                    }
+                    */
     public Tienda getLastShop() {
         return lastShop;
     }
@@ -177,5 +199,46 @@ public class Controlador {
 
     public void setLongitud(double latitud) {
         this.latitud = latitud;
+    }
+
+    public List<UsuarioFiltrado> getUsuariosBorrar() {
+        return usuariosBorrar;
+    }
+
+    public void setUsuariosBorrar(List<UsuarioFiltrado> usuariosBorrar) {
+        this.usuariosBorrar = usuariosBorrar;
+    }
+
+
+    public String getSugerenciasUsuario() {
+        return sugerenciasUsuario;
+    }
+
+    public void setSugerenciasUsuario(String sugerenciasUsuario) {
+        this.sugerenciasUsuario = sugerenciasUsuario;
+    }
+
+    public void setNombreUsuarioActual(String nombreUsuarioActual) {
+        this.nombreUsuarioActual = nombreUsuarioActual;
+    }
+
+    public String getNombreUsuarioActual() {
+        return nombreUsuarioActual;
+    }
+
+    public String getNombreTiendaValorar() {
+        return nombreTiendaValorar;
+    }
+
+    public void setNombreTiendaValorar(String nombreTiendaValorar) {
+        this.nombreTiendaValorar = nombreTiendaValorar;
+    }
+
+    public String getDireccionTiendaValorar() {
+        return direccionTiendaValorar;
+    }
+
+    public void setDireccionTiendaValorar(String direccionTiendaValorar) {
+        this.direccionTiendaValorar = direccionTiendaValorar;
     }
 }

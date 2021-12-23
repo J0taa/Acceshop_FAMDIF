@@ -49,4 +49,5 @@
     <string name="si">Aceptar</string>
     <string name="dialog_message_confirmar_sugerencia">¿Está seguro de querer enviar la sugerencia?</string>
     <string name="dialog_title_confirmar_sugerencia">Confirmar envío de sugerencia</string>
+    <string name="dialog_title_borrar_sigerencia">Borrar Sugerencia</string>
 </resources>

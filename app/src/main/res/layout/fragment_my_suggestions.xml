@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MySuggestionsFragment">
+    tools:context=".Fragment.MySuggestionsFragment">
 
     <ListView
-        android:id="@+id/idLista"
-        android:layout_width="wrap_content"
-        android:layout_height="539dp"
-        android:layout_gravity="center"
+        android:layout_marginTop="70dp"
+        android:id="@+id/idListaSugerencias"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         />
 
 </FrameLayout>

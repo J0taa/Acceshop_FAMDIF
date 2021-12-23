@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditShopFragment">
+    tools:context=".Fragment.EditShopFragment">
 
     <ScrollView
         android:layout_width="370dp"
@@ -66,8 +66,46 @@
                 android:ems="10"
                 android:inputType="textPersonName" />
 
+            <TextView
+                android:id="@+id/idAcceso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Información sobre el acceso:"
+                />
+
+            <EditText
+                android:id="@+id/editarTiendaAcceso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="top|start"
+                android:lines="5"
+                android:padding="10dp"
+                />
             <Space
-                android:id="@+id/idEspacio"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                ></Space>
+
+            <TextView
+                android:id="@+id/idPuertaAcceso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Información sobre la puerta:"
+                />
+
+            <EditText
+                android:id="@+id/editarTiendaPuertaAcceso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="top|start"
+                android:lines="10"
+                android:padding="16dp"
+                />
+
+
+            <Space
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
 
@@ -84,7 +122,6 @@
                 android:layout_height="wrap_content" />
 
             <Space
-                android:id="@+id/idEspacio"
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
 
@@ -93,6 +130,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Subtipo de Establecimiento:" />
+
+
 
             <Spinner
                 android:id="@+id/desplegablesubtipoEstablecimiento"
@@ -123,7 +162,6 @@
                 />
 
             <Space
-                android:id="@+id/idEspacio6"
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
 

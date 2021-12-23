@@ -1,12 +1,12 @@
-package com.example.famdif_final;
+package com.example.famdif_final.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +22,25 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.maps.GoogleMap;
+import com.example.famdif_final.Fragment.BaseFragment;
+import com.example.famdif_final.FragmentName;
+import com.example.famdif_final.MainActivity;
+import com.example.famdif_final.MenuType;
+import com.example.famdif_final.R;
+import com.example.famdif_final.SubtipoTienda;
+import com.example.famdif_final.Tienda;
+import com.example.famdif_final.TipoTienda;
+import com.example.famdif_final.Upload;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,10 +61,11 @@ public class CrearTiendaFragment extends BaseFragment {
     private EditText longitud;
     private Button creaTienda;
     private Button getLocation;
-    private Date creacion;
-    private Date modificacion;
+    private String creacion;
     private TipoTienda tTienda;
     private SubtipoTienda stTienda;
+    private EditText acceso;
+    private EditText puertaAcceso;
 
     private ArrayAdapter adapt;
     private ArrayAdapter adapt1;
@@ -66,15 +78,17 @@ public class CrearTiendaFragment extends BaseFragment {
 
     private Button seleccionarImagenTienda;
     private Button seleccionarImagenTienda1;
-    private EditText nombreImagen;
-    private EditText nombreImagen1;
+    //private EditText nombreImagen;
+    //private EditText nombreImagen1;
     private Uri mImageUri;
     private Uri mImageUri1;
     private ImageView mImageView;
     private ImageView mImageView1;
 
-    private GoogleMap mMap;
-    private LocationManager ubicacion;
+
+    private Tienda tiendaCreada;
+
+
 
 
     public CrearTiendaFragment() {
@@ -92,6 +106,8 @@ public class CrearTiendaFragment extends BaseFragment {
         tipoTienda = view.findViewById(R.id.crearTiendaDespleglableTipo);
         subtipoTienda = view.findViewById(R.id.crearTiendaDespleglableSubtipo);
         accesibilidad = view.findViewById(R.id.crearTiendaDespleglableAccesibilidad);
+        acceso = view.findViewById(R.id.creaTiendaAcceso);
+        puertaAcceso = view.findViewById(R.id.creaTiendaPuertaAcceso);
 
         id = view.findViewById(R.id.creaTiendaId);
         nombreTienda = view.findViewById(R.id.creaTiendaNombre);
@@ -102,11 +118,11 @@ public class CrearTiendaFragment extends BaseFragment {
         getLocation = view.findViewById(R.id.btnGetLocation);
 
         seleccionarImagenTienda = view.findViewById(R.id.btnCargarImagen);
-        nombreImagen = view.findViewById(R.id.editTextImagen);
+        //nombreImagen = view.findViewById(R.id.editTextImagen);
         mImageView = view.findViewById(R.id.imagenCargada);
 
         seleccionarImagenTienda1 = view.findViewById(R.id.btnCargarImagen1);
-        nombreImagen1 = view.findViewById(R.id.editTextImagen1);
+        //nombreImagen1 = view.findViewById(R.id.editTextImagen1);
         mImageView1 = view.findViewById(R.id.imagenCargada1);
 
 
@@ -188,13 +204,27 @@ public class CrearTiendaFragment extends BaseFragment {
         creaTienda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                creacion = new Date();
-                modificacion = new Date();
-                Tienda t = new Tienda(id.getText().toString(), nombreTienda.getText().toString(), tipoSeleccionado,
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                creacion = df.format(new Date()).toString();
+                tiendaCreada = new Tienda(id.getText().toString(), nombreTienda.getText().toString(), tipoSeleccionado,
                         subtipoSeleccionado, direccion.getText().toString(), accesibSeleccionada, latitud.getText().toString()
-                        , longitud.getText().toString(), creacion, modificacion);
-                crearTienda(t);
+                        , longitud.getText().toString(), creacion, acceso.getText().toString(), puertaAcceso.getText().toString());
+                crearTienda(tiendaCreada);
                 uploadFile();
+                /*
+                if(nombreImagen.getText().toString().matches(id.getText().toString()+"_A") &&
+                        nombreImagen1.getText().toString().matches(id.getText().toString()+"B") ){
+                    Log.i("1-","ENTRAMOS A SUBIR IMAGENES");
+                    uploadFile();
+                }else if(nombreImagen.getText().toString().length()==0||nombreImagen1.getText().toString().length()==0){
+                    Toast.makeText(getContext(),"El nombre de la imagen no puede estar vacío",Toast.LENGTH_LONG).show();
+                }else if(!nombreImagen.getText().toString().matches(id.getText().toString()+"_A")){
+                    Toast.makeText(getContext(),"El nombre de la imagen A debe seguir el siguiente formato: ID_A",Toast.LENGTH_LONG).show();
+                }else if(!nombreImagen1.getText().toString().matches(id.getText().toString()+"_B")){
+                    Toast.makeText(getContext(),"El nombre de la imagen B debe seguir el siguiente formato: ID_B",Toast.LENGTH_LONG).show();
+                }
+
+                 */
             }
 
 
@@ -234,14 +264,14 @@ public class CrearTiendaFragment extends BaseFragment {
         tienda.put("tipo", t.getTipo());
         tienda.put("subtipo", t.getSubtipo());
         tienda.put("direccion", t.getDireccion());
-        tienda.put("accesibilidad", t.getClasificacion());
+        tienda.put("clasificacion", parsearAccesibilidadTextoNumero(t.getClasificacion()));
         tienda.put("latitud", t.getLatitud());
         tienda.put("longitud", t.getLongitud());
-        tienda.put("creacion", t.getFechaRegistro());
-        tienda.put("modificacion", t.getFechaModificacion());
+        tienda.put("creacion", t.getFechaVisita());
+        tienda.put("acceso",t.getAcceso());
+        tienda.put("puertaAcceso",t.getPuertaAcceso());
 
-        //MainActivity.databaseReference.child("shops").child(String.valueOf(t.hashCode())).setValue(tienda);
-        MainActivity.db.collection("shops").document(id.getText().toString())
+        MainActivity.db.collection("comerciosElCarmenTest").document(id.getText().toString())
         .set(tienda);
 
     }
@@ -285,24 +315,33 @@ public class CrearTiendaFragment extends BaseFragment {
 
     private void uploadFile(){
         if(mImageUri != null){
+            Log.i("2-","LA IMAGEN NO ES NULA");
             //StorageReference storageReference = MainActivity.mStorageRef.child(System.currentTimeMillis() + "." +getFileExtension(mImageUri));
-            StorageReference storageReference = MainActivity.mStorageRef.child(id.getText().toString()+"_1" +
+            StorageReference storageReference = MainActivity.mStorageRef.child(id.getText().toString()+"_A" +
                     "." +getFileExtension(mImageUri));
+            Log.i("3-",storageReference.toString());
             storageReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Upload upload = new Upload(id.getText().toString()+"1", uri.toString());
+                            Upload upload = new Upload(id.getText().toString()+"_A", uri.toString());
+                            Log.i("4-","IMAGEN SUBIDA");
+                            Toast.makeText(getContext(), "Imagen subida", Toast.LENGTH_LONG).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i("FOTOS:",e.getMessage());
                         }
                     });
-                    //Toast.makeText(getContext(), "Imagen subida", Toast.LENGTH_LONG).show();
+
                 }
             });
         }
         if(mImageUri1!=null){
-            StorageReference storageReference = MainActivity.mStorageRef.child(id.getText().toString()+"_2" +
+            StorageReference storageReference = MainActivity.mStorageRef.child(id.getText().toString()+"_B" +
                     "." +getFileExtension(mImageUri1));
             storageReference.putFile(mImageUri1).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -310,15 +349,45 @@ public class CrearTiendaFragment extends BaseFragment {
                     storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Upload upload = new Upload(id.getText().toString()+"2", uri.toString());
+                            Upload upload = new Upload(id.getText().toString()+"_B", uri.toString());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i("FOTOS:",e.getMessage());
                         }
                     });
-                    //Toast.makeText(getContext(), "Imagen subida", Toast.LENGTH_LONG).show();
+
                 }
             });
         }
         if(mImageUri1==null && mImageUri==null)
             Toast.makeText(getContext(), "No se han seleccionado imagenes", Toast.LENGTH_LONG).show();
+
+        Toast.makeText(getContext(), "Tienda creada correctamente", Toast.LENGTH_LONG).show();
+        getMainActivity().setFragment(FragmentName.HOME);
     }
+
+    private String parsearAccesibilidadTextoNumero(String accesMin){
+        String accTemp;
+        switch (accesMin){
+            case "ACCESIBLE":
+                accTemp="A";
+                break;
+            case "ACCESIBLE CON DIFICULTAD":
+                accTemp="B";
+                break;
+            case "PRACTICABLE CON AYUDA":
+                accTemp="C";
+                break;
+            case "CUALQUIERA":
+                accTemp="D";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + accesMin);
+        }
+        return accTemp;
+    }
+
 
 }

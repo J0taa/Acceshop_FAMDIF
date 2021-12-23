@@ -1,4 +1,4 @@
-package com.example.famdif_final;
+package com.example.famdif_final.Fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,6 +12,13 @@ import android.view.ViewGroup;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.famdif_final.Controlador;
+import com.example.famdif_final.Fragment.BaseFragment;
+import com.example.famdif_final.FragmentName;
+import com.example.famdif_final.MainActivity;
+import com.example.famdif_final.MyInfoWindowAdapter;
+import com.example.famdif_final.R;
+import com.example.famdif_final.Tienda;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,7 +43,7 @@ public class MapsFragment extends BaseFragment {
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            for (Tienda t:Controlador.getInstance().getShops()) {
+            for (Tienda t: Controlador.getInstance().getShops()) {
                 lista.add(t);
             }
             result=lista.size();
@@ -48,7 +55,7 @@ public class MapsFragment extends BaseFragment {
                     LatLng sydney = new LatLng(Double.valueOf(t.getLatitud()), Double.valueOf(t.getLongitud()));
 
                     snippet = t.getDireccion() + "\n" + "\n" + t.getTipo() + " (" + t.getSubtipo() + ")" + "\n" + "\n" +
-                            t.getClasificacion() + "\n";
+                            t.getClasificacion()+" - "+parsearAccesibilidadBBDD(t.getClasificacion()) + "\n";
 
                     //googleMap.addMarker(new MarkerOptions().position(sydney).title(t.getNombre()).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                     Log.i("ID - CLASIFICACION ", t.getId() + " " + t.getClasificacion());
@@ -117,6 +124,27 @@ public class MapsFragment extends BaseFragment {
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    private String parsearAccesibilidadBBDD(String accesMin){
+        String cadena="";
+        switch (accesMin){
+            case "A":
+                cadena="ACCESIBLE";
+                break;
+            case "B":
+                cadena="ACCESIBLE CON DIFICULTAD";
+                break;
+            case "C":
+                cadena="PRACTICABLE CON AYUDA";
+                break;
+            case "D":
+                cadena="MALA ACCESIBILIDAD";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + accesMin);
+        }
+        return cadena;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.famdif_final;
+package com.example.famdif_final.Fragment;
 
 import android.annotation.SuppressLint;
 import android.location.Location;
@@ -15,6 +15,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.example.famdif_final.Controlador;
+import com.example.famdif_final.FragmentName;
+import com.example.famdif_final.MainActivity;
+import com.example.famdif_final.R;
+import com.example.famdif_final.SubtipoTienda;
+import com.example.famdif_final.Tienda;
+import com.example.famdif_final.TipoTienda;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -61,9 +68,6 @@ public class BusquedaFragment extends BaseFragment {
     private static double longitudActual;
 
     private int tipoBusqueda;
-
-
-
 
     public BusquedaFragment() {
         // Required empty public constructor

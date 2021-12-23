@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textNombreUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sugerido por: "
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/idNombreUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        />
+
+    <TextView
+        android:id="@+id/textEmailUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="E-mail: "
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/idEmailUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        />
+
+    <TextView
+        android:id="@+id/textTituloSugerencia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Titulo: "
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/idTituloSugerencia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        />
+
+    <TextView
+        android:id="@+id/textCuerpoSugerencia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mensaje: "
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/idCuerpoSugerencia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
+
+
+</LinearLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.AccederFragment">
+    tools:context=".Fragment.BusquedaSugerenciaFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,16 +22,12 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
             <Button
-                android:id="@+id/accederBtnLogin"
+                android:id="@+id/btnBuscarSugerencia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/menu_acceder" />
+                android:text="@string/menu_busqueda" />
 
-            <Button
-                android:id="@+id/accederBtnGoogle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/acceder_con_google" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -45,42 +41,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.291">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:id="@+id/accederTextEmail"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:id="@+id/accederTextPassw"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:endIconMode="password_toggle"
-                android:hint="Contraseña">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
+                android:text="Nombre:"
+                />
 
             <EditText
-                android:id="@+id/accederTextPass"
+                android:id="@+id/buscarSugerencia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/contraseña"
-                android:inputType="textPassword" />
+                android:inputType="textEmailAddress"/>
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

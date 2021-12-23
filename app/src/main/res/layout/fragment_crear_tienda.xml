@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CrearTiendaFragment">
+    tools:context=".Fragment.CrearTiendaFragment">
 
 
     <ScrollView
@@ -12,6 +12,7 @@
         android:layout_gravity="center">
 
         <LinearLayout
+            android:id="@+id/sublayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -20,8 +21,11 @@
                 android:id="@+id/idIdentificador"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Id:" />
+                android:text="Id:"
+                android:textStyle="bold"/>
 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/creaTiendaId"
                 android:layout_width="match_parent"
@@ -29,11 +33,13 @@
                 android:ems="10"
                 android:inputType="textPersonName" />
 
+
             <TextView
                 android:id="@+id/idNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre:" />
+                android:text="Nombre:"
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/creaTiendaNombre"
@@ -46,7 +52,8 @@
                 android:id="@+id/idTipoEstablecimiento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tipo de Establecimiento" />
+                android:text="Tipo de Establecimiento"
+                android:textStyle="bold"/>
 
             <Spinner
                 android:id="@+id/crearTiendaDespleglableTipo"
@@ -57,7 +64,8 @@
                 android:id="@+id/idSubtipoEstablecimiento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Subtipo de establecimiento" />
+                android:text="Subtipo de establecimiento"
+                android:textStyle="bold"/>
 
             <Spinner
                 android:id="@+id/crearTiendaDespleglableSubtipo"
@@ -68,7 +76,8 @@
                 android:id="@+id/idTiendaDireccion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dirección:" />
+                android:text="Dirección:"
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/creaTiendaDireccion"
@@ -78,10 +87,39 @@
                 android:inputType="textPersonName" />
 
             <TextView
+                android:id="@+id/idAcceso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Información sobre el acceso:"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/creaTiendaAcceso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/idPuertaAcceso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Información sobre la puerta:"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/creaTiendaPuertaAcceso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <TextView
                 android:id="@+id/idTextoAccesibilidad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Accesibilidad" />
+                android:text="Accesibilidad"
+                android:textStyle="bold"/>
 
             <Spinner
                 android:id="@+id/crearTiendaDespleglableAccesibilidad"
@@ -92,7 +130,8 @@
                 android:id="@+id/idLatitud"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Latitud:" />
+                android:text="Latitud:"
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/creaTiendaLatitud"
@@ -106,7 +145,8 @@
                 android:id="@+id/idLongitud"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Longitud:" />
+                android:text="Longitud:"
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/creaTiendaLongitud"
@@ -123,45 +163,85 @@
                 android:layout_gravity="center"
                 android:text="Obtener Ubicacion" />
 
-            <EditText
-                android:id="@+id/editTextImagen"
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:hint="Nombre Imagen" />
+                android:layout_height="20dp"
+                ></Space>
 
 
-            <Button
-                android:id="@+id/btnCargarImagen"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/imagen" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/editTextImagen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Seleccione la primera foto"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/btnCargarImagen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="64dp"
+                    android:text="IMAGEN 1" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                ></Space>
 
             <ImageView
                 android:id="@+id/imagenCargada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_height="20dp"
+                ></Space>
 
-
-            <EditText
-                android:id="@+id/editTextImagen1"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:hint="Nombre Imagen" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnCargarImagen1"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/imagen" />
+                <TextView
+                    android:id="@+id/editTextImagen1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Seleccione la segunda foto"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/btnCargarImagen1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_gravity="right"
+                    android:text="IMAGEN 2" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                ></Space>
 
             <ImageView
                 android:id="@+id/imagenCargada1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_gravity="center" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                ></Space>
 
             <Button
                 android:id="@+id/btnCrearTienda"

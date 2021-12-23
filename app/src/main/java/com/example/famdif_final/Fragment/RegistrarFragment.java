@@ -1,19 +1,26 @@
-package com.example.famdif_final;
+package com.example.famdif_final.Fragment;
 
 import static com.example.famdif_final.R.id.item_sign_in;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.famdif_final.Controlador;
+import com.example.famdif_final.Fragment.BaseFragment;
+import com.example.famdif_final.FragmentName;
+import com.example.famdif_final.MainActivity;
+import com.example.famdif_final.MenuType;
+import com.example.famdif_final.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 
 import java.util.HashMap;
@@ -22,12 +29,11 @@ import java.util.Map;
 
 public class RegistrarFragment extends BaseFragment {
     private View v;
-    private TextView nombre;
-    private TextView email;
-    private TextView pass;
-    private TextView pass2;
+    private TextInputLayout nombre;
+    private TextInputLayout email;
+    private TextInputLayout pass;
+    private TextInputLayout pass2;
     private Button btnRegistro;
-    //private FirebaseAuth mAuth;
 
     public RegistrarFragment() {
         // Required empty public constructor
@@ -64,10 +70,8 @@ public class RegistrarFragment extends BaseFragment {
 
     private void signInClick(View view) {
         try {
-            MainActivity.mAuth.createUserWithEmailAndPassword(email.getText().toString(),pass.getText().toString())
+            MainActivity.mAuth.createUserWithEmailAndPassword(email.getEditText().getText().toString(),pass.getEditText().getText().toString())
                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        private static final String TAG = "PRUEBAS";
-
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             //REGISTRO FIRECLOUD
@@ -76,19 +80,22 @@ public class RegistrarFragment extends BaseFragment {
                             getMainActivity().clearBackStack();
                             getMainActivity().changeMenu(MenuType.USER_LOGGED);
                             getMainActivity().setFragment(FragmentName.HOME);
+                            Controlador.getInstance().setUsuario(email.getEditText().getText().toString());
 
                             Map<String, Object> user = new HashMap<>();
-                            user.put("nombre",nombre.getText().toString());
-                            user.put("email",email.getText().toString());
-                            user.put("pass",pass.getText().toString());
+                            user.put("nombre",nombre.getEditText().getText().toString());
+                            user.put("email",email.getEditText().getText().toString());
+                            user.put("pass",pass.getEditText().getText().toString());
                             user.put("admin","0");
-                            MainActivity.db.collection("users").document(email.getText().toString())
+                            MainActivity.db.collection("users").document(email.getEditText().getText().toString())
                                     .set(user);
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Toast.makeText(getMainActivity(), "Algo ha fallado, vuelve a intentarlo", Toast.LENGTH_SHORT).show();
+                    Log.i("ERROR LOGIN: ",e.getMessage());
                 }
             });
         }catch (Exception e){

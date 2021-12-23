@@ -1,7 +1,5 @@
 package com.example.famdif_final;
 
-import java.util.Date;
-
 public class Tienda {
     private String id;
     private String nombre;
@@ -11,12 +9,13 @@ public class Tienda {
     private String clasificacion;
     private String latitud;
     private String longitud;
-    private Date fechaRegistro;
-    private Date fechaModificacion;
+    private String fechaVisita;
+    private String acceso;
+    private String puertaAcceso;
 
     public Tienda(){}
 
-    public Tienda(String id, String nombre, String tipo, String subtipo, String direccion, String clasificacion, String latitud, String longitud, Date fechaRegistro, Date fechaModificacion) {
+    public Tienda(String id, String nombre, String tipo, String subtipo, String direccion, String clasificacion, String latitud, String longitud, String fechaRegistro, String acceso, String puertaAcceso) {
         this.id = id;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -25,9 +24,11 @@ public class Tienda {
         this.clasificacion = clasificacion;
         this.latitud = latitud;
         this.longitud = longitud;
-        this.fechaRegistro = fechaRegistro;
-        this.fechaModificacion = fechaModificacion;
+        this.fechaVisita = fechaRegistro;
+        this.acceso = acceso;
+        this.puertaAcceso = puertaAcceso;
     }
+
 
     public String getNombre() {
         return nombre;
@@ -55,12 +56,17 @@ public class Tienda {
         return longitud;
     }
 
-    public Date getFechaRegistro() {
-        return fechaRegistro;
+    public String getFechaVisita() {
+        return fechaVisita;
     }
 
-    public Date getFechaModificacion() {
-        return fechaModificacion;
+
+    public String getAcceso() {
+        return acceso;
+    }
+
+    public String getPuertaAcceso() {
+        return puertaAcceso;
     }
 
     public String getId() {
