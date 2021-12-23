@@ -172,6 +172,17 @@
                 ></ImageView>
 
             <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <Button
+                android:id="@+id/btnEditarImg1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EDITAR IMAGEN 1"
+                android:layout_gravity="center"/>
+
+            <Space
                 android:id="@+id/idEspacio6"
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
@@ -181,6 +192,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 ></ImageView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <Button
+                android:id="@+id/btnEditarImg2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EDITAR IMAGEN 2"
+                android:layout_gravity="center"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <Button
+                android:id="@+id/btnGuardar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="APLICAR CAMBIOS" />
+
         </LinearLayout>
 
 

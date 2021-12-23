@@ -1,27 +1,42 @@
 package com.example.famdif_final.Fragment;
 
+import android.content.ContentResolver;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.famdif_final.Controlador;
-import com.example.famdif_final.Fragment.BaseFragment;
+import com.example.famdif_final.FragmentName;
 import com.example.famdif_final.MainActivity;
 import com.example.famdif_final.R;
 import com.example.famdif_final.SubtipoTienda;
 import com.example.famdif_final.Tienda;
 import com.example.famdif_final.TipoTienda;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +44,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EditShopFragment extends BaseFragment {
+
+    private static final int PICK_IMAGE_1 = 1;
+    private static final int PICK_IMAGE_2 = 2;
+
     private TipoTienda tipoTiendaLista;
     private SubtipoTienda subtipoTiendaLista;
     private Spinner tipoTienda;
@@ -47,6 +66,12 @@ public class EditShopFragment extends BaseFragment {
 
     private ImageView imagen1;
     private ImageView imagen2;
+    private Uri mImageUri;
+    private Uri mImageUri1;
+
+    private Button btnImagen1;
+    private Button btnImagen2;
+    private Button btnAplicarCambios;
 
     private List<String> accesibilidad= Arrays.asList("A-ACCESIBLE", "B-ACCESIBLE CON DIFICULTAD","C-PRACTICABLE CON AYUDA","D-CUALQUIERA");
 
@@ -67,6 +92,10 @@ public class EditShopFragment extends BaseFragment {
         despAccesibilidad=view.findViewById(R.id.desplegableAccesibilidad);
         acceso=view.findViewById(R.id.editarTiendaAcceso);
         puertaAcceso=view.findViewById(R.id.editarTiendaPuertaAcceso);
+
+        btnImagen1=view.findViewById(R.id.btnEditarImg1);
+        btnImagen2=view.findViewById(R.id.btnEditarImg2);
+        btnAplicarCambios=view.findViewById(R.id.btnGuardar);
 
 
         tipoTiendaLista = new TipoTienda();
@@ -98,6 +127,29 @@ public class EditShopFragment extends BaseFragment {
 
         obtenerImagen();
 
+        btnImagen1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+
+        });
+
+        btnImagen2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser2();
+            }
+        });
+
+        btnAplicarCambios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                borrarAnterior();
+                uploadFile();
+            }
+        });
+
         return view;
     }
 
@@ -111,7 +163,7 @@ public class EditShopFragment extends BaseFragment {
     }
 
     private void obtenerImagen() {
-        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference("Uploads/" + tienda.getId() + "_1.jpg");
+        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference("/" + tienda.getId() + "_A.jpg");
 
         try {
             File localfile = File.createTempFile("tempfile", "jpg");
@@ -126,7 +178,7 @@ public class EditShopFragment extends BaseFragment {
             e.printStackTrace();
         }
 
-        mStorageReference = FirebaseStorage.getInstance().getReference("Uploads/"+tienda.getId()+"_2.jpg");
+        mStorageReference = FirebaseStorage.getInstance().getReference("/"+tienda.getId()+"_B.jpg");
 
         try {
             File localfile1 = File.createTempFile("tempfile", "jpg");
@@ -140,6 +192,123 @@ public class EditShopFragment extends BaseFragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+
+    private void openFileChooser(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_1) ;
+    }
+
+    private void openFileChooser2(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_2);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode ==  PICK_IMAGE_1 && resultCode == -1 && data != null && data.getData()!=null ){
+            mImageUri = data.getData();
+            Picasso.with(this.getContext()).load(mImageUri).into(imagen1);
+
+        }else if(requestCode ==  PICK_IMAGE_2 && resultCode == -1 && data != null && data.getData()!=null ) {
+            mImageUri1 = data.getData();
+            Picasso.with(this.getContext()).load(mImageUri1).into(imagen2);
+        }
+
+    }
+
+    private String getFileExtension(Uri uri){
+        ContentResolver cR = getContext().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+
+    }
+
+    private void borrarAnterior(){
+        if(mImageUri != null){
+            StorageReference storageReference = MainActivity.mStorageRef.child(identificador.getText().toString()+"_A" +
+                    "." +getFileExtension(mImageUri));
+            storageReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    //BORRADO
+                }
+            });
+        }
+        if(mImageUri1!=null){
+            StorageReference storageReference = MainActivity.mStorageRef.child(identificador.getText().toString()+"_B" +
+                    "." +getFileExtension(mImageUri1));
+            storageReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    //BORRADO
+                }
+            });
+        }
+        if(mImageUri1==null && mImageUri==null)
+            Toast.makeText(getContext(), "No se han seleccionado imagenes", Toast.LENGTH_LONG).show();
+
+        Toast.makeText(getContext(), "Tienda creada correctamente", Toast.LENGTH_LONG).show();
+    }
+
+    private void uploadFile(){
+        if(mImageUri != null){
+            StorageReference storageReference = MainActivity.mStorageRef.child(identificador.getText().toString()+"_A" +
+                    "." +getFileExtension(mImageUri));
+            storageReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            //Upload upload = new Upload(id.getText().toString()+"_A", uri.toString());
+                            Log.i("4-","IMAGEN SUBIDA");
+                            Toast.makeText(getContext(), "Imagen subida", Toast.LENGTH_LONG).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i("FOTOS:",e.getMessage());
+                        }
+                    });
+
+                }
+            });
+        }
+        if(mImageUri1!=null){
+            StorageReference storageReference = MainActivity.mStorageRef.child(identificador.getText().toString()+"_B" +
+                    "." +getFileExtension(mImageUri1));
+            storageReference.putFile(mImageUri1).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            //Upload upload = new Upload(identificador.getText().toString()+"_B", uri.toString());
+                            Controlador.getInstance().setSelectedShop(tienda);
+                            getMainActivity().setFragment(FragmentName.SEARCH_RESULT_DETAILS);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i("FOTOS:",e.getMessage());
+                        }
+                    });
+
+                }
+            });
+        }
+        if(mImageUri1==null && mImageUri==null)
+            Toast.makeText(getContext(), "No se han seleccionado imagenes", Toast.LENGTH_LONG).show();
+
 
     }
 

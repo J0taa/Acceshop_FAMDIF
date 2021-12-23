@@ -22,7 +22,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.famdif_final.Fragment.BaseFragment;
 import com.example.famdif_final.FragmentName;
 import com.example.famdif_final.MainActivity;
 import com.example.famdif_final.MenuType;
@@ -211,20 +210,7 @@ public class CrearTiendaFragment extends BaseFragment {
                         , longitud.getText().toString(), creacion, acceso.getText().toString(), puertaAcceso.getText().toString());
                 crearTienda(tiendaCreada);
                 uploadFile();
-                /*
-                if(nombreImagen.getText().toString().matches(id.getText().toString()+"_A") &&
-                        nombreImagen1.getText().toString().matches(id.getText().toString()+"B") ){
-                    Log.i("1-","ENTRAMOS A SUBIR IMAGENES");
-                    uploadFile();
-                }else if(nombreImagen.getText().toString().length()==0||nombreImagen1.getText().toString().length()==0){
-                    Toast.makeText(getContext(),"El nombre de la imagen no puede estar vacío",Toast.LENGTH_LONG).show();
-                }else if(!nombreImagen.getText().toString().matches(id.getText().toString()+"_A")){
-                    Toast.makeText(getContext(),"El nombre de la imagen A debe seguir el siguiente formato: ID_A",Toast.LENGTH_LONG).show();
-                }else if(!nombreImagen1.getText().toString().matches(id.getText().toString()+"_B")){
-                    Toast.makeText(getContext(),"El nombre de la imagen B debe seguir el siguiente formato: ID_B",Toast.LENGTH_LONG).show();
-                }
 
-                 */
             }
 
 
