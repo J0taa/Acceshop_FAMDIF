@@ -6,39 +6,26 @@
     tools:context=".Fragment.EditShopFragment">
 
     <ScrollView
-        android:layout_width="370dp"
-        android:layout_height="580dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="10dp">
 
-
-            <TextView
-                android:id="@+id/idIdentificador"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/Identificador" />
-
-            <EditText
-                android:id="@+id/idIdentificadorTienda"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName" />
-
-            <Space
-                android:id="@+id/idEspacio1"
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
 
             <TextView
                 android:id="@+id/idNombreTienda"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Nombre" />
+                android:text="@string/Nombre"
+                android:layout_marginTop="40dp"/>
 
             <EditText
                 android:id="@+id/textoNombreTienda"
@@ -213,7 +200,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="APLICAR CAMBIOS" />
+                android:text="APLICAR CAMBIOS"
+                android:layout_marginBottom="30dp"/>
 
         </LinearLayout>
 

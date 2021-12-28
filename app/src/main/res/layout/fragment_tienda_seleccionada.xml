@@ -159,7 +159,6 @@
                 android:textSize="20dp"
                 android:textStyle="bold"/>
             <Space
-                android:id="@+id/idEspacio2"
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
 
@@ -256,7 +255,6 @@
                 android:textSize="20dp"/>
 
             <Space
-                android:id="@+id/idEspacio9"
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
 

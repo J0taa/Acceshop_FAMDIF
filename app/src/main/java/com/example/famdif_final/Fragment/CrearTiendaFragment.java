@@ -253,7 +253,7 @@ public class CrearTiendaFragment extends BaseFragment {
         tienda.put("clasificacion", parsearAccesibilidadTextoNumero(t.getClasificacion()));
         tienda.put("latitud", t.getLatitud());
         tienda.put("longitud", t.getLongitud());
-        tienda.put("creacion", t.getFechaVisita());
+        tienda.put("creacion", t.getCreacion());
         tienda.put("acceso",t.getAcceso());
         tienda.put("puertaAcceso",t.getPuertaAcceso());
 

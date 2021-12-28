@@ -100,7 +100,7 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         puertaAcceso=view.findViewById(R.id.idPuertaObtenida);
         puertaAcceso.setText(tiendaSeleccionada.getPuertaAcceso());
         fechaCreacion=view.findViewById(R.id.idFechaCreacionObtenida);
-        fechaCreacion.setText(tiendaSeleccionada.getFechaVisita());
+        fechaCreacion.setText(tiendaSeleccionada.getCreacion());
         idPuntTienda=view.findViewById(R.id.idPuntuacionTienda);
 
         imagen=view.findViewById(R.id.image_view_upload);

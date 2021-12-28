@@ -100,21 +100,21 @@ public class EditShopFragment extends BaseFragment {
 
         tipoTiendaLista = new TipoTienda();
 
-        tipoTienda.setSelection(getIndex(tipoTienda, tienda.getTipo()));
         subtipoTiendaLista = new SubtipoTienda(tienda.getTipo());
-        despAccesibilidad.setSelection(getIndex(despAccesibilidad, tienda.getClasificacion()));
+
 
         adapt = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_dropdown_item,tipoTiendaLista.getTiposTienda());
         tipoTienda.setAdapter(adapt);
+        tipoTienda.setSelection(getIndex(tipoTienda, tienda.getTipo()));
 
         adapt1 = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_dropdown_item,subtipoTiendaLista.getSubTiposTienda());
         subtipoTienda.setAdapter(adapt1);
+        subtipoTienda.setSelection(getIndex(subtipoTienda,tienda.getSubtipo()));
 
         adapt2 = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_dropdown_item,accesibilidad);
         despAccesibilidad.setAdapter(adapt2);
+        despAccesibilidad.setSelection(getIndex(despAccesibilidad, tienda.getClasificacion()));
 
-        identificador=view.findViewById(R.id.idIdentificadorTienda);
-        identificador.setText(tienda.getId());
         nombreTienda=view.findViewById(R.id.textoNombreTienda);
         nombreTienda.setText(tienda.getNombre());
         direccion=view.findViewById(R.id.textoDireccion);
@@ -145,6 +145,7 @@ public class EditShopFragment extends BaseFragment {
         btnAplicarCambios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                actualizarDatosTienda();
                 borrarAnterior();
                 uploadFile();
             }
@@ -152,6 +153,39 @@ public class EditShopFragment extends BaseFragment {
 
         return view;
     }
+
+    private void actualizarDatosTienda() {
+        Log.i("Tienda a actualizar:",tienda.getId());
+        if(nombreTienda.getText().toString().length()<=0){
+            Toast.makeText(getContext(),"El nombre de la tienda no puede ser vacio",Toast.LENGTH_LONG).show();
+        }else if(direccion.getText().toString().length()<=0){
+                Toast.makeText(getContext(),"LA dirección no puede ser vacía",Toast.LENGTH_LONG).show();
+        }else{
+                Log.i("1","ENTRAMOS A ACTUALIZAR DATOS");
+                MainActivity.db.collection("comerciosElCarmenTest").document(tienda.getId())
+                        .update("nombre",nombreTienda.getText().toString(),
+                                "direccion",direccion.getText().toString(),
+                                "tipo",tipoTienda.getSelectedItem().toString(),
+                                "subtipo",subtipoTienda.getSelectedItem().toString(),
+                                "acceso",acceso.getText().toString(),
+                                "puertaAcceso",puertaAcceso.getText().toString(),
+                                "clasificacion",despAccesibilidad.getSelectedItem().toString().substring(0,1))
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getContext(),"ACTUALIZACION REALIZADA",Toast.LENGTH_LONG).show();
+                                getMainActivity().setFragment(FragmentName.SEARCH);
+                                //getMainActivity().clearBackStack();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("ERROR AL ACTUALIZAR", e.getMessage());
+                    }
+                });
+
+            }
+        }
 
     private int getIndex(Spinner tipoTienda, String tipo) {
         for (int i=0;i<tipoTienda.getCount();i++){
@@ -253,10 +287,7 @@ public class EditShopFragment extends BaseFragment {
                 }
             });
         }
-        if(mImageUri1==null && mImageUri==null)
-            Toast.makeText(getContext(), "No se han seleccionado imagenes", Toast.LENGTH_LONG).show();
 
-        Toast.makeText(getContext(), "Tienda creada correctamente", Toast.LENGTH_LONG).show();
     }
 
     private void uploadFile(){
@@ -269,14 +300,12 @@ public class EditShopFragment extends BaseFragment {
                     storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            //Upload upload = new Upload(id.getText().toString()+"_A", uri.toString());
-                            Log.i("4-","IMAGEN SUBIDA");
-                            Toast.makeText(getContext(), "Imagen subida", Toast.LENGTH_LONG).show();
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.i("FOTOS:",e.getMessage());
+
                         }
                     });
 
@@ -306,8 +335,8 @@ public class EditShopFragment extends BaseFragment {
                 }
             });
         }
-        if(mImageUri1==null && mImageUri==null)
-            Toast.makeText(getContext(), "No se han seleccionado imagenes", Toast.LENGTH_LONG).show();
+        //if(mImageUri1==null && mImageUri==null)
+          //  Toast.makeText(getContext(), "No se han seleccionado imagenes", Toast.LENGTH_LONG).show();
 
 
     }
