@@ -22,6 +22,7 @@ public class Controlador {
     private String nombreUsuarioActual;
     private String nombreTiendaValorar="";
     private String direccionTiendaValorar="";
+    private int sugerenciasTotal;
 
 
     private double latitud;
@@ -71,6 +72,13 @@ public class Controlador {
         return usuario;
     }
 
+    public int getSugerenciasTotal() {
+        return sugerenciasTotal;
+    }
+
+    public void setSugerenciasTotal(int sugerenciasTotal) {
+        this.sugerenciasTotal = sugerenciasTotal;
+    }
 
     /*public User getCurrentUser() {
         return currentUser;
@@ -128,30 +136,7 @@ public class Controlador {
         this.usuarioBorrar = usuarioBorrar;
     }
 
-    /*public List<ItemMyRating> getLastRatings() {
-                        return lastRatings;
-                    }
 
-                    public void setLastRatings(List<ItemMyRating> lastRatings) {
-                        this.lastRatings = lastRatings;
-                    }
-
-                    public List<ItemFilterUserResponse> getItemFilterUserResponses() {
-                        return itemFilterUserResponses;
-                    }
-
-                    public void setItemFilterUserResponses(List<ItemFilterUserResponse> itemFilterUserResponses) {
-                        this.itemFilterUserResponses = itemFilterUserResponses;
-                    }
-
-                    public List<Suggestion> getSuggestions() {
-                        return suggestions;
-                    }
-
-                    public void setSuggestions(List<Suggestion> suggestions) {
-                        this.suggestions = suggestions;
-                    }
-                    */
     public Tienda getLastShop() {
         return lastShop;
     }

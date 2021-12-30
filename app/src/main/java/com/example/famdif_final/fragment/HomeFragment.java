@@ -1,19 +1,17 @@
-package com.example.famdif_final.Fragment;
+package com.example.famdif_final.fragment;
 
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.famdif_final.Fragment.BaseFragment;
 import com.example.famdif_final.FragmentName;
 import com.example.famdif_final.MainActivity;
 import com.example.famdif_final.R;
 
 public class HomeFragment extends BaseFragment {
-
+    Boolean pulsado=false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -69,11 +67,8 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        //getMainActivity().getNavigationView().getMenu().clear();
-        //getMainActivity().getNavigationView().inflateMenu(R.menu.home_menu);
-        //getMainActivity().changeMenu(MenuType.USER_LOGGED);
-        //getMainActivity().getNavigationView().getMenu().findItem(R.id.item_home).setChecked(true);
 
         return view;
     }
+
 }

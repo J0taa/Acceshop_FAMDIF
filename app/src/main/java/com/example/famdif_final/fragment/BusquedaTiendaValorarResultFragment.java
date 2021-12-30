@@ -1,4 +1,4 @@
-package com.example.famdif_final.Fragment;
+package com.example.famdif_final.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 
-import com.example.famdif_final.Adaptador.AdaptadorTienda;
+import com.example.famdif_final.adaptador.AdaptadorTienda;
 import com.example.famdif_final.Controlador;
 import com.example.famdif_final.FragmentName;
 import com.example.famdif_final.MainActivity;
@@ -103,7 +103,7 @@ public class BusquedaTiendaValorarResultFragment extends BaseFragment{
     public void detallesTienda(int i){
         Tienda t = new Tienda(model.get(i).getId(),model.get(i).getNombre(),model.get(i).getTipo(),model.get(i).getSubtipo(),
                 model.get(i).getDireccion(),model.get(i).getClasificacion(),model.get(i).getLatitud(),model.get(i).getLongitud(),
-                model.get(i).getCreacion(),model.get(i).getAcceso(),model.get(i).getPuertaAcceso());
+                model.get(i).getFechaVisita(),model.get(i).getAcceso(),model.get(i).getPuertaAcceso());
 
         Controlador.getInstance().setSelectedShop(t);
         getMainActivity().setFragment(FragmentName.SEARCH_RESULT_DETAILS);

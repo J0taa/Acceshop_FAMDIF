@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.MySuggestionsFragment">
+    tools:context=".fragment.MySuggestionsFragment">
 
     <ListView
         android:layout_marginTop="70dp"

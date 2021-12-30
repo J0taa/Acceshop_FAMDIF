@@ -1,9 +1,9 @@
-package com.example.famdif_final.Fragment;
+package com.example.famdif_final.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.famdif_final.Controlador;
 import com.example.famdif_final.FragmentName;
@@ -164,7 +165,6 @@ public class BusquedaFragment extends BaseFragment {
             }
         });
 
-        //Tipo, subtipo, nombre, direccion, maxDistancia, accesibilidad minima
         busqueda.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -172,8 +172,7 @@ public class BusquedaFragment extends BaseFragment {
                 tiendasEncontradas.clear();
                 if(tTienda.matches("Cualquiera")){
                     busqueda2(despDistancia.getSelectedItem().toString(),despAccesibilidad.getSelectedItem().toString());
-                //}else if(nombreTienda.getText().toString().matches("") && direccion.getText().toString().matches("")){
-                    //busqueda1(tTienda,stTienda,despDistancia.getSelectedItem().toString(),despAccesibilidad.getSelectedItem().toString());
+
                 }else{
                     busqueda3(tTienda,stTienda,despDistancia.getSelectedItem().toString(),despAccesibilidad.getSelectedItem().toString());
                 }
@@ -207,8 +206,8 @@ public class BusquedaFragment extends BaseFragment {
                         if(task.isSuccessful() && tipoBusqueda == 2){
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Tienda tienda = document.toObject(Tienda.class);
-                                if(tienda.getNombre().contains(nombreTienda.getText().toString()) &&
-                                        tienda.getDireccion().contains(direccion.getText().toString())){
+                                if(tienda.getNombre().contains(nombreTienda.getText().toString().toUpperCase()) &&
+                                        tienda.getDireccion().contains(direccion.getText().toString().toUpperCase())){
                                     if (distancia.matches("CUALQUIERA") && accTemp == 4) {
                                         tiendasEncontradas.add(tienda);
                                     } else if (distancia.matches("CUALQUIERA") && accTemp != 4) {
@@ -231,7 +230,7 @@ public class BusquedaFragment extends BaseFragment {
                         }else if(task.isSuccessful() && tipoBusqueda == 1){
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Tienda tienda = document.toObject(Tienda.class);
-                                if(tienda.getNombre().contains(nombreTienda.getText().toString())){
+                                if(tienda.getNombre().contains(nombreTienda.getText().toString().toUpperCase())){
                                     if (distancia.matches("CUALQUIERA") && accTemp == 4) {
                                         tiendasEncontradas.add(tienda);
                                     } else if (distancia.matches("CUALQUIERA") && accTemp != 4) {
@@ -254,7 +253,7 @@ public class BusquedaFragment extends BaseFragment {
                         }else if(task.isSuccessful() && tipoBusqueda == 3){
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Tienda tienda = document.toObject(Tienda.class);
-                                if(tienda.getDireccion().contains(direccion.getText().toString())){
+                                if(tienda.getDireccion().contains(direccion.getText().toString().toUpperCase())){
                                     if (distancia.matches("CUALQUIERA") && accTemp == 4) {
                                         tiendasEncontradas.add(tienda);
                                     } else if (distancia.matches("CUALQUIERA") && accTemp != 4) {
@@ -296,20 +295,29 @@ public class BusquedaFragment extends BaseFragment {
                             Controlador.getInstance().setShops(tiendasEncontradas);
                             if (tiendasEncontradas.size() > 0) {
                                 getMainActivity().setFragment(FragmentName.MAP);
+                            }else{
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setMessage("No se han encontrado tiendas con los criterios indicados" )
+                                        .setTitle("SIN RESULTADOS");
+                                builder.setPositiveButton("Entendido", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {}
+                                });
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
                             }
+
                         }
 
                     }
 
                 });
 
-
     }
 
 
     public double distanciaCoord(double lat1, double lng1, double lat2, double lng2) {
         getUbicacion();
-        Log.i("lat1,lon1,lat2,lon2", String.valueOf(lat1)+";"+String.valueOf(lng1)+";"+String.valueOf(lat2)+";"+String.valueOf(lng2));
         double radioTierra = 6371000;//en kilómetros
         double dLat = Math.toRadians(lat2 - latitudActual);
         double dLng = Math.toRadians(lng2 - longitudActual);
@@ -320,119 +328,10 @@ public class BusquedaFragment extends BaseFragment {
         double va2 = 2 * Math.atan2(Math.sqrt(va1), Math.sqrt(1 - va1));
         double distancia = radioTierra * va2;
 
-        Log.i("Calculando distancia: ", String.valueOf(distancia));
         return distancia;
     }
 
-    /*
-    private void busqueda1(String tipo, String subtipo, String distancia, String accesMin) {
-        getUbicacion();
-        int accTemp=parsearAccesibilidadTextoNumero(accesMin);
-        if((nombreTienda.getText().toString().matches("")) && (direccion.getText().toString().matches(""))){
-            MainActivity.db.collection("comerciosElCarmenTest")
-                    .whereEqualTo("tipo", tTienda)
-                    .whereEqualTo("subtipo", stTienda)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Tienda tienda = document.toObject(Tienda.class);
-                                    if (distancia.matches("Cualquiera") && accTemp == 4) {
-                                        tiendasEncontradas.add(tienda);
-                                    } else if (distancia.matches("Cualquiera") && accTemp != 4) {
-                                        if (parsearAccesibilidadBBDD(tienda.getClasificacion()) <= accTemp) {
-                                            tiendasEncontradas.add(tienda);
-                                        }
-                                    } else {
-                                        if ((distanciaCoord(latitudActual, longitudActual, Double.valueOf(tienda.getLatitud()), Double.valueOf(tienda.getLongitud()))
-                                                <= Double.valueOf(despDistancia.getSelectedItem().toString())) &&
-                                                (parsearAccesibilidadBBDD(tienda.getClasificacion()) <= accTemp)
-                                        )
-                                            tiendasEncontradas.add(tienda);
-                                    }
-                                }
-                            }
-                            Controlador.getInstance().setShops(tiendasEncontradas);
-                            if (tiendasEncontradas.size() > 0) {
-                                getMainActivity().setFragment(FragmentName.MAP);
-                            }
-                        }
 
-                    });
-        }else if((!nombreTienda.getText().toString().matches("")) && (direccion.getText().toString().matches(""))){
-            MainActivity.db.collection("comerciosElCarmenTest")
-                    .whereEqualTo("tipo", tTienda)
-                    .whereEqualTo("subtipo", stTienda)
-                    .whereArrayContains("nombre",nombreTienda.getText().toString())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Tienda tienda = document.toObject(Tienda.class);
-                                    if (distancia.matches("Cualquiera") && accTemp == 4) {
-                                        Log.i("CASO_1", "ENtramos en el caso 1");
-                                        tiendasEncontradas.add(tienda);
-                                    } else if (distancia.matches("Cualquiera") && accTemp != 4) {
-                                        if (parsearAccesibilidadBBDD(tienda.getClasificacion()) <= accTemp) {
-                                            Log.i("CASO_2", "ENtramos en el caso 2");
-                                            tiendasEncontradas.add(tienda);
-                                        }
-                                    } else {
-                                        if ((distanciaCoord(latitudActual, longitudActual, Double.valueOf(tienda.getLatitud()), Double.valueOf(tienda.getLongitud()))
-                                                <= Double.valueOf(despDistancia.getSelectedItem().toString())) &&
-                                                (parsearAccesibilidadBBDD(tienda.getClasificacion()) <= accTemp)
-                                        )
-                                            tiendasEncontradas.add(tienda);
-                                    }
-                                }
-                            }
-                            Controlador.getInstance().setShops(tiendasEncontradas);
-                            if (tiendasEncontradas.size() > 0) {
-                                getMainActivity().setFragment(FragmentName.MAP);
-                            }
-                        }
-                    });
-        }else if((nombreTienda.getText().toString().matches("")) && (!direccion.getText().toString().matches(""))){
-            MainActivity.db.collection("comerciosElCarmenTest")
-                    .whereEqualTo("tipo", tTienda)
-                    .whereEqualTo("subtipo", stTienda)
-                    .whereArrayContains("direccion",nombreTienda.getText().toString())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Tienda tienda = document.toObject(Tienda.class);
-                                    if (distancia.matches("Cualquiera") && accTemp == 4) {
-                                        Log.i("CASO_1", "ENtramos en el caso 1");
-                                        tiendasEncontradas.add(tienda);
-                                    } else if (distancia.matches("Cualquiera") && accTemp != 4) {
-                                        if (parsearAccesibilidadBBDD(tienda.getClasificacion()) <= accTemp) {
-                                            Log.i("CASO_2", "ENtramos en el caso 2");
-                                            tiendasEncontradas.add(tienda);
-                                        }
-                                    } else {
-                                        if ((distanciaCoord(latitudActual, longitudActual, Double.valueOf(tienda.getLatitud()), Double.valueOf(tienda.getLongitud()))
-                                                <= Double.valueOf(despDistancia.getSelectedItem().toString())) &&
-                                                (parsearAccesibilidadBBDD(tienda.getClasificacion()) <= accTemp)
-                                        )
-                                            tiendasEncontradas.add(tienda);
-                                    }
-                                }
-                            }
-                            Controlador.getInstance().setShops(tiendasEncontradas);
-                            if (tiendasEncontradas.size() > 0) {
-                                getMainActivity().setFragment(FragmentName.MAP);
-                            }
-                        }
-                    });
-        }
-    }*/
 
     private void busqueda2(String distancia, String accesMin) {
         getUbicacion();
@@ -449,11 +348,11 @@ public class BusquedaFragment extends BaseFragment {
                                 for(QueryDocumentSnapshot document : task.getResult()){
                                     Tienda tienda = document.toObject(Tienda.class);
                                     if(distancia.matches("CUALQUIERA") && accTemp==4){
-                                        Log.i("CASO_1","ENtramos en el caso 1");
+                                        //Log.i("CASO_1","ENtramos en el caso 1");
                                         tiendasEncontradas.add(tienda);
                                     }else if(distancia.matches("CUALQUIERA") && accTemp!=4){
                                         if(parsearAccesibilidadBBDD(tienda.getClasificacion())<=accTemp){
-                                            Log.i("CASO_2","ENtramos en el caso 2");
+                                            //Log.i("CASO_2","ENtramos en el caso 2");
                                             tiendasEncontradas.add(tienda);
                                         }
                                     }else{
@@ -544,14 +443,14 @@ public class BusquedaFragment extends BaseFragment {
                             if(task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()){
                                     //Log.i("Longitud",document.get("longitud").toString());
-                                    Log.i("ID",document.get("id").toString());
-                                    Log.i("Tienda",document.toString());
+                                    //Log.i("ID",document.get("id").toString());
+                                    //Log.i("Tienda",document.toString());
                                     Tienda tienda = document.toObject(Tienda.class);
                                     if(distancia.matches("CUALQUIERA") && accTemp==4){
                                         tiendasEncontradas.add(tienda);
                                     }else if(distancia.matches("CUALQUIERA") && accTemp!=4){
                                         if(parsearAccesibilidadBBDD(tienda.getClasificacion())<=accTemp){
-                                            Log.i("Entramos aqui...","entrando");
+                                            //Log.i("Entramos aqui...","entrando");
                                             tiendasEncontradas.add(tienda);
                                         }
                                     }else{
@@ -598,7 +497,7 @@ public class BusquedaFragment extends BaseFragment {
                     if (task.isSuccessful() && task.getResult() != null) {
                         latitudActual=task.getResult().getLatitude();
                         longitudActual=task.getResult().getLongitude();
-                        Log.i("Ubicacion ",String.valueOf(latitudActual)+String.valueOf(longitudActual));
+                        //Log.i("Ubicacion ",String.valueOf(latitudActual)+String.valueOf(longitudActual));
                     }
                 }
             });

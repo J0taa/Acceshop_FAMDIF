@@ -1,13 +1,11 @@
-package com.example.famdif_final.Fragment;
+package com.example.famdif_final.fragment;
 
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.famdif_final.Fragment.BaseFragment;
 import com.example.famdif_final.FragmentName;
 import com.example.famdif_final.MainActivity;
 import com.example.famdif_final.MenuType;
@@ -61,12 +59,15 @@ public class IndexFragment extends BaseFragment {
             }
         });
 
-        getMainActivity().getSupportActionBar().setTitle(R.string.app_name);
+        getMainActivity().getSupportActionBar().setTitle("ACCESSHOP");
         getMainActivity().changeMenu(MenuType.DISCONNECTED);
-        // Para que se marque la opcion del menu cuando hago un atras
         getMainActivity().setOptionMenu(R.id.item_index);
+
+
 
         return view;
     }
+
+
 
 }

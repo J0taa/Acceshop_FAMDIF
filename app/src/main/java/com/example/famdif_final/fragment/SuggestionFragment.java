@@ -1,4 +1,4 @@
-package com.example.famdif_final.Fragment;
+package com.example.famdif_final.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.famdif_final.Controlador;
-import com.example.famdif_final.Fragment.BaseFragment;
 import com.example.famdif_final.MainActivity;
 import com.example.famdif_final.R;
 

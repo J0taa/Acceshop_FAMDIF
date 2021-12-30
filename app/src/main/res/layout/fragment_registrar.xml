@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.RegistrarFragment">
+    tools:context=".fragment.RegistrarFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -82,6 +82,14 @@
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="30dp"></Space>
+
+            <TextView
+                android:id="@+id/errorPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="* La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula."
+                android:textColor="#E60909"
+                android:visibility="invisible"/>
 
             <Button
                 android:id="@+id/registroBtnRegistrar"

@@ -1,4 +1,4 @@
-package com.example.famdif_final.Fragment;
+package com.example.famdif_final.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,8 +8,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 
-import com.example.famdif_final.Adaptador.AdaptadorSugerencia;
-import com.example.famdif_final.Fragment.BaseFragment;
+import com.example.famdif_final.adaptador.AdaptadorSugerencia;
 import com.example.famdif_final.MainActivity;
 import com.example.famdif_final.R;
 import com.example.famdif_final.Sugerencia;

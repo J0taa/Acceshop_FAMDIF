@@ -19,22 +19,24 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.famdif_final.Fragment.AccederFragment;
-import com.example.famdif_final.Fragment.BusquedaFragment;
-import com.example.famdif_final.Fragment.BusquedaSugerenciaFragment;
-import com.example.famdif_final.Fragment.BusquedaSugerenciaFragmentResult;
-import com.example.famdif_final.Fragment.BusquedaTiendaValorarResultFragment;
-import com.example.famdif_final.Fragment.BusquedaUsuarioFragment;
-import com.example.famdif_final.Fragment.BusquedaValorarTiendaFragment;
-import com.example.famdif_final.Fragment.CrearTiendaFragment;
-import com.example.famdif_final.Fragment.EditShopFragment;
-import com.example.famdif_final.Fragment.HomeFragment;
-import com.example.famdif_final.Fragment.IndexFragment;
-import com.example.famdif_final.Fragment.MapsFragment;
-import com.example.famdif_final.Fragment.MySuggestionsFragment;
-import com.example.famdif_final.Fragment.RegistrarFragment;
-import com.example.famdif_final.Fragment.SuggestionFragment;
-import com.example.famdif_final.Fragment.TiendaSeleccionadaFragment;
+import com.example.famdif_final.fragment.AboutUsFragment;
+import com.example.famdif_final.fragment.AccederFragment;
+import com.example.famdif_final.fragment.BusquedaFragment;
+import com.example.famdif_final.fragment.BusquedaSugerenciaFragment;
+import com.example.famdif_final.fragment.BusquedaSugerenciaFragmentResult;
+import com.example.famdif_final.fragment.BusquedaTiendaValorarResultFragment;
+import com.example.famdif_final.fragment.BusquedaUsuarioFragment;
+import com.example.famdif_final.fragment.BusquedaValorarTiendaFragment;
+import com.example.famdif_final.fragment.CrearTiendaFragment;
+import com.example.famdif_final.fragment.EditShopFragment;
+import com.example.famdif_final.fragment.HomeFragment;
+import com.example.famdif_final.fragment.IndexFragment;
+import com.example.famdif_final.fragment.ListaUsuariosBorrarFragment;
+import com.example.famdif_final.fragment.MapsFragment;
+import com.example.famdif_final.fragment.MySuggestionsFragment;
+import com.example.famdif_final.fragment.RegistrarFragment;
+import com.example.famdif_final.fragment.SuggestionFragment;
+import com.example.famdif_final.fragment.TiendaSeleccionadaFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     public static Location loca;
 
     public static final int PICK_IMAGE_REQUEST=1;
+
+    private static long presionado;
 
     public GPSManager gpsManager;
 
@@ -186,6 +190,10 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.item_rate_shops:
                                 setFragment(FragmentName.RATE_SHOP);
                                 break;
+
+                            case R.id.item_about_us:
+                                setFragment(FragmentName.ABOUT_US);
+                                break;
                         }
 
                         drawerLayout.closeDrawer(GravityCompat.START);
@@ -277,6 +285,11 @@ public class MainActivity extends AppCompatActivity {
                 BusquedaTiendaValorarResultFragment busquedaTiendaValorarResultFragment = new BusquedaTiendaValorarResultFragment();
                 fragmentTransaction.replace(R.id.index_fragment,busquedaTiendaValorarResultFragment);
                 break;
+
+            case ABOUT_US:
+                AboutUsFragment aboutUsFragment = new AboutUsFragment();
+                fragmentTransaction.replace(R.id.index_fragment,aboutUsFragment);
+                break;
         }
 
         ((FragmentTransaction) fragmentTransaction).addToBackStack(null);
@@ -290,6 +303,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void clearBackStack1() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.popBackStack();
+    }
+
 
     public void logOut() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -299,20 +317,44 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 changeMenu(MenuType.DISCONNECTED);
-                setFragment(FragmentName.INDEX);
                 if(mAuth!=null){
                     Toast.makeText(getBaseContext(), "Hasta la proxima "+Controlador.getInstance().getUsuario(),Toast.LENGTH_LONG).show();
                     mAuth.signOut();
+                    clearBackStack();
+                    setFragment(FragmentName.INDEX);
                 }
             }
         });
         AlertDialog dialog = builder.create();
         dialog.show();
 
+
     }
 
     public GPSManager getGpsManager() {
         return gpsManager;
+    }
+
+
+    @Override
+    public void onBackPressed(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        //Si tiene fragments simplemente ejecuta la pulsación Back normal
+        if (fragmentManager.getBackStackEntryCount()>0)
+            super.onBackPressed();
+        else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("¿Desea realmente salir de la aplicación?")
+                    .setTitle("CERRAR APLICACION");
+            builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 
 

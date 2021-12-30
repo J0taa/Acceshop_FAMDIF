@@ -1,6 +1,7 @@
-package com.example.famdif_final.Fragment;
+package com.example.famdif_final.fragment;
 
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.famdif_final.Controlador;
 import com.example.famdif_final.FragmentName;
@@ -58,7 +60,7 @@ public class EditShopFragment extends BaseFragment {
     private ArrayAdapter adapt2;
     private Tienda tienda;
 
-    private EditText identificador;
+    //private EditText identificador;
     private EditText nombreTienda;
     private EditText direccion;
     private EditText acceso;
@@ -97,7 +99,6 @@ public class EditShopFragment extends BaseFragment {
         btnImagen2=view.findViewById(R.id.btnEditarImg2);
         btnAplicarCambios=view.findViewById(R.id.btnGuardar);
 
-
         tipoTiendaLista = new TipoTienda();
 
         subtipoTiendaLista = new SubtipoTienda(tienda.getTipo());
@@ -113,7 +114,7 @@ public class EditShopFragment extends BaseFragment {
 
         adapt2 = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_dropdown_item,accesibilidad);
         despAccesibilidad.setAdapter(adapt2);
-        despAccesibilidad.setSelection(getIndex(despAccesibilidad, tienda.getClasificacion()));
+        despAccesibilidad.setSelection(getIndex(despAccesibilidad, parsearAccesibilidadBBDD(tienda.getClasificacion())));
 
         nombreTienda=view.findViewById(R.id.textoNombreTienda);
         nombreTienda.setText(tienda.getNombre());
@@ -145,9 +146,19 @@ public class EditShopFragment extends BaseFragment {
         btnAplicarCambios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                actualizarDatosTienda();
-                borrarAnterior();
-                uploadFile();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("¿Desea confirmar los cambios indicados?");
+                builder.setTitle("CONFIRMAR ACTUALIZACION TIENDA");
+                builder.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        borrarAnterior();
+                        actualizarDatosTienda();
+                        uploadFile();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -161,7 +172,6 @@ public class EditShopFragment extends BaseFragment {
         }else if(direccion.getText().toString().length()<=0){
                 Toast.makeText(getContext(),"LA dirección no puede ser vacía",Toast.LENGTH_LONG).show();
         }else{
-                Log.i("1","ENTRAMOS A ACTUALIZAR DATOS");
                 MainActivity.db.collection("comerciosElCarmenTest").document(tienda.getId())
                         .update("nombre",nombreTienda.getText().toString(),
                                 "direccion",direccion.getText().toString(),
@@ -173,9 +183,9 @@ public class EditShopFragment extends BaseFragment {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(getContext(),"ACTUALIZACION REALIZADA",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(),"Tienda actualizada correctamente",Toast.LENGTH_LONG).show();
+                                getMainActivity().clearBackStack1();
                                 getMainActivity().setFragment(FragmentName.SEARCH);
-                                //getMainActivity().clearBackStack();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -268,7 +278,7 @@ public class EditShopFragment extends BaseFragment {
 
     private void borrarAnterior(){
         if(mImageUri != null){
-            StorageReference storageReference = MainActivity.mStorageRef.child(identificador.getText().toString()+"_A" +
+            StorageReference storageReference = MainActivity.mStorageRef.child(tienda.getId()+"_A" +
                     "." +getFileExtension(mImageUri));
             storageReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -278,7 +288,7 @@ public class EditShopFragment extends BaseFragment {
             });
         }
         if(mImageUri1!=null){
-            StorageReference storageReference = MainActivity.mStorageRef.child(identificador.getText().toString()+"_B" +
+            StorageReference storageReference = MainActivity.mStorageRef.child(tienda.getId()+"_B" +
                     "." +getFileExtension(mImageUri1));
             storageReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -292,7 +302,7 @@ public class EditShopFragment extends BaseFragment {
 
     private void uploadFile(){
         if(mImageUri != null){
-            StorageReference storageReference = MainActivity.mStorageRef.child(identificador.getText().toString()+"_A" +
+            StorageReference storageReference = MainActivity.mStorageRef.child(tienda.getId()+"_A" +
                     "." +getFileExtension(mImageUri));
             storageReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -313,7 +323,7 @@ public class EditShopFragment extends BaseFragment {
             });
         }
         if(mImageUri1!=null){
-            StorageReference storageReference = MainActivity.mStorageRef.child(identificador.getText().toString()+"_B" +
+            StorageReference storageReference = MainActivity.mStorageRef.child(tienda.getId()+"_B" +
                     "." +getFileExtension(mImageUri1));
             storageReference.putFile(mImageUri1).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -323,7 +333,9 @@ public class EditShopFragment extends BaseFragment {
                         public void onSuccess(Uri uri) {
                             //Upload upload = new Upload(identificador.getText().toString()+"_B", uri.toString());
                             Controlador.getInstance().setSelectedShop(tienda);
+                            getMainActivity().clearBackStack();
                             getMainActivity().setFragment(FragmentName.SEARCH_RESULT_DETAILS);
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -335,10 +347,29 @@ public class EditShopFragment extends BaseFragment {
                 }
             });
         }
-        //if(mImageUri1==null && mImageUri==null)
-          //  Toast.makeText(getContext(), "No se han seleccionado imagenes", Toast.LENGTH_LONG).show();
 
 
+    }
+
+    private String parsearAccesibilidadBBDD(String accesMin){
+        String cadena="";
+        switch (accesMin){
+            case "A":
+                cadena="A-ACCESIBLE";
+                break;
+            case "B":
+                cadena="B-ACCESIBLE CON DIFICULTAD";
+                break;
+            case "C":
+                cadena="C-PRACTICABLE CON AYUDA";
+                break;
+            case "D":
+                cadena="D-MALA ACCESIBILIDAD";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + accesMin);
+        }
+        return cadena;
     }
 
 

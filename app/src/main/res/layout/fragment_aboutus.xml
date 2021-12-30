@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.AboutUsFragment">
+
+
+    <LinearLayout
+        android:layout_marginTop="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="La Federación de Asociaciones Murcianas de Personas con Discapacidad Física y Orgánica (FAMDIF/COCEMFE-Murcia) es una organización no gubernamental, de carácter social, sin ánimo de lucro y declarada de utilidad pública, que pretende servir de cauce a las inquietudes de las asociaciones de personas con discapacidad física y orgánica de la Región de Murcia." />
+
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Esta tiene un carácter esencialmente reivindicativo, así como prestador de servicios en la medida que las administraciones no los generen. Nacimos como respuesta a las inquietudes de las Asociaciones que la componen, actualmente diecisiete, como medio de aunar esfuerzos para lograr sus objetivos comunes: lograr la integración social y cultural de las personas con discapacidad y su participación activa y normalizada en la sociedad." />
+
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Promovemos la intervención ante los problemas sociales y en especial ante aquellos que incumben más directamente a las personas con discapacidad física y orgánica, por sus especiales características. Pretendemos alcanzar la eliminación de barreras arquitectónicas y sociales; el acceso a la cultura, al trabajo, al deporte y a la salud, entre otros." />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_logos_accedemurcia_comercios_01" />
+
+
+    </LinearLayout>
+</FrameLayout>

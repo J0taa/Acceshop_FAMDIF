@@ -1,5 +1,6 @@
-package com.example.famdif_final.Fragment;
+package com.example.famdif_final.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.famdif_final.Controlador;
 import com.example.famdif_final.FragmentName;
@@ -100,7 +102,7 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
         puertaAcceso=view.findViewById(R.id.idPuertaObtenida);
         puertaAcceso.setText(tiendaSeleccionada.getPuertaAcceso());
         fechaCreacion=view.findViewById(R.id.idFechaCreacionObtenida);
-        fechaCreacion.setText(tiendaSeleccionada.getCreacion());
+        fechaCreacion.setText(tiendaSeleccionada.getFechaVisita());
         idPuntTienda=view.findViewById(R.id.idPuntuacionTienda);
 
         imagen=view.findViewById(R.id.image_view_upload);
@@ -154,7 +156,19 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
 
         btnEliminarTienda.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {eliminarTienda();}
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("¿Está seguro de que desea borrar la siguiente tienda?:"+ "\n"+"\n" + tiendaSeleccionada.getId() +"-"+tiendaSeleccionada.getNombre())
+                        .setTitle("CONFIRMAR BORRADO");
+                builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        eliminarTienda();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         });
 
         obtenerImagen();

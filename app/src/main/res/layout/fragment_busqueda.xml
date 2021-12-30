@@ -4,10 +4,11 @@
     android:id="@+id/despliaeDistancegabl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.BusquedaFragment">
+    tools:context=".fragment.BusquedaFragment">
 
 
     <ScrollView
+        android:layout_marginTop="40dp"
         android:layout_width="370dp"
         android:layout_height="580dp"
         android:layout_gravity="center">

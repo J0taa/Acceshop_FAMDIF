@@ -1,4 +1,4 @@
-package com.example.famdif_final;
+package com.example.famdif_final.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,8 +12,14 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-import com.example.famdif_final.Adaptador.AdaptadorUsuario;
-import com.example.famdif_final.Fragment.BaseFragment;
+import com.example.famdif_final.adaptador.AdaptadorUsuario;
+import com.example.famdif_final.Controlador;
+import com.example.famdif_final.MainActivity;
+import com.example.famdif_final.R;
+import com.example.famdif_final.Sugerencia;
+import com.example.famdif_final.Usuario;
+import com.example.famdif_final.UsuarioFiltrado;
+import com.example.famdif_final.Votacion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -77,7 +83,7 @@ public class ListaUsuariosBorrarFragment extends BaseFragment {
     private void confirmarBorrado(int i) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("¿Esta seguro que desea borrar al siguiente usuario?"+ "\n"+"\n" +"Nombre: "+model.get(i).getName()+"\n"+"Email: "+model.get(i).getMail()+"\n"+"\n"+"Esta operación no se puede deshacer" )
-                .setTitle(R.string.dialog_title);
+                .setTitle("BORRAR USUARIO");
         UsuarioFiltrado u = new UsuarioFiltrado(model.get(i).getName(),model.get(i).getMail());
         builder.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
             @Override

@@ -1,4 +1,4 @@
-package com.example.famdif_final.Fragment;
+package com.example.famdif_final.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,10 +13,9 @@ import android.view.ViewGroup;
 import androidx.core.content.ContextCompat;
 
 import com.example.famdif_final.Controlador;
-import com.example.famdif_final.Fragment.BaseFragment;
 import com.example.famdif_final.FragmentName;
 import com.example.famdif_final.MainActivity;
-import com.example.famdif_final.MyInfoWindowAdapter;
+import com.example.famdif_final.adaptador.MyInfoWindowAdapter;
 import com.example.famdif_final.R;
 import com.example.famdif_final.Tienda;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,6 +33,7 @@ import java.util.List;
 
 public class MapsFragment extends BaseFragment {
 
+    private List<Tienda> listaAux=new ArrayList<>();
     private List<Tienda> lista=new ArrayList<>();
     private List<Tienda> borrar=new ArrayList<>();
     private String snippet;
@@ -44,10 +44,14 @@ public class MapsFragment extends BaseFragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             for (Tienda t: Controlador.getInstance().getShops()) {
-                lista.add(t);
+                    lista.add(t);
             }
+
             result=lista.size();
             Controlador.getInstance().getShops().clear();
+
+
+
             getMainActivity().getSupportActionBar().setTitle("BUSQUEDA - RESULTADOS ("+result+")");
 
             for(Tienda t: lista) {
@@ -97,8 +101,8 @@ public class MapsFragment extends BaseFragment {
                     });
                 }
             }
-
         }
+
     };
 
 
@@ -145,6 +149,12 @@ public class MapsFragment extends BaseFragment {
                 throw new IllegalStateException("Unexpected value: " + accesMin);
         }
         return cadena;
+    }
+
+    private void limpiaLista(List<Tienda> listaTiendasAux){
+        for(Tienda t :listaTiendasAux){
+            listaTiendasAux.remove(t);
+        }
     }
 
 }

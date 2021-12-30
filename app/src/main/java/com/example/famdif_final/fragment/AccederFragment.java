@@ -1,4 +1,4 @@
-package com.example.famdif_final.Fragment;
+package com.example.famdif_final.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,6 +44,7 @@ public class AccederFragment extends BaseFragment {
 
     private static final int RC_SIGN_IN=100;
     private GoogleSignInClient googleSignInClient;
+
 
 
     public  AccederFragment() {
@@ -166,7 +167,6 @@ public class AccederFragment extends BaseFragment {
                             Controlador.getInstance().setUsuario(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                             Controlador.getInstance().setNombreUsuarioActual(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                             getMainActivity().getSupportActionBar().setTitle("HOME");
-                            getMainActivity().clearBackStack();
                             getMainActivity().setFragment(FragmentName.HOME);
                             getMainActivity().changeMenu(MenuType.USER_LOGGED);
                         }
@@ -178,5 +178,7 @@ public class AccederFragment extends BaseFragment {
 
 
     }
+
+
 
 }

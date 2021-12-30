@@ -1,4 +1,4 @@
-package com.example.famdif_final.Fragment;
+package com.example.famdif_final.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-import com.example.famdif_final.Adaptador.AdaptadorSugerencia;
+import com.example.famdif_final.adaptador.AdaptadorSugerencia;
 import com.example.famdif_final.Controlador;
 import com.example.famdif_final.FragmentName;
 import com.example.famdif_final.MainActivity;
@@ -32,6 +33,7 @@ public class BusquedaSugerenciaFragmentResult extends BaseFragment{
     private ListView lista;
     private AdaptadorSugerencia adaptador;
     private ArrayList<Sugerencia> model = new ArrayList<>();
+    private TextView sinRes;
 
 
     public BusquedaSugerenciaFragmentResult() {
@@ -46,6 +48,7 @@ public class BusquedaSugerenciaFragmentResult extends BaseFragment{
         adaptador = new AdaptadorSugerencia(getContext(),model);
 
         view=inflater.inflate(R.layout.fragment_all_suggestions, container, false);
+        sinRes=view.findViewById(R.id.sinResultados);
 
         recuperarSugerenciasTotal();
 
@@ -75,13 +78,21 @@ public class BusquedaSugerenciaFragmentResult extends BaseFragment{
                         if(task.isSuccessful()) {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 Sugerencia s = doc.toObject(Sugerencia.class);
-                                if(s.getAutor().toLowerCase().contains(Controlador.getInstance().getSugerenciasUsuario().toLowerCase())) {
+                                if(Controlador.getInstance().getSugerenciasTotal()==1){
+                                    model.add(s);
+                                    adaptador.notifyDataSetChanged();
+                                }else if(s.getAutor().toLowerCase().contains(Controlador.getInstance().getSugerenciasUsuario().toLowerCase())) {
                                     model.add(s);
                                     adaptador.notifyDataSetChanged();
                                 }
+                                if(model.size()==0){
+                                    sinRes.setVisibility(View.VISIBLE);
+                                }else
+                                    sinRes.setVisibility(View.INVISIBLE);
                             }
                         }
                     }
+
                 });
     }
 

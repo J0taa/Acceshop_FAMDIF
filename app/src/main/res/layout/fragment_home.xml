@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.HomeFragment">
+    tools:context=".fragment.HomeFragment">
 
     <LinearLayout
         android:layout_width="381dp"
@@ -21,7 +21,7 @@
             android:layout_width="256dp"
             android:layout_height="244dp"
             android:layout_gravity="center|top"
-            android:src="@drawable/imagenhome" />
+            android:src="@drawable/ic_logos_accedemurcia_comercios_01" />
 
         <Space
             android:id="@+id/idEspacio2"

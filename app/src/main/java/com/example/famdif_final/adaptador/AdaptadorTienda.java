@@ -1,4 +1,4 @@
-package com.example.famdif_final.Adaptador;
+package com.example.famdif_final.adaptador;
 
 import android.content.Context;
 import android.view.LayoutInflater;

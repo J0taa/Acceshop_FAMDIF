@@ -1,4 +1,4 @@
-package com.example.famdif_final.Fragment;
+package com.example.famdif_final.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,6 +42,7 @@ public class BusquedaSugerenciaFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 if(!nombreBuscar.getText().toString().equals("")) {
+                    Controlador.getInstance().setSugerenciasTotal(0);
                     MainActivity.db.collection("users")
                             .whereEqualTo("nombre",nombreBuscar.getText().toString())
                             .get()
@@ -60,6 +61,9 @@ public class BusquedaSugerenciaFragment extends BaseFragment {
                             });
 
 
+                }else{
+                    Controlador.getInstance().setSugerenciasTotal(1);
+                    getMainActivity().setFragment(FragmentName.VIEW_SUGGESTIONS_RESULT);
                 }
             }
         });
