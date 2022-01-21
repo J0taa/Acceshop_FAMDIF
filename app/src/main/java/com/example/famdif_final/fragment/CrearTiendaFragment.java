@@ -60,7 +60,7 @@ public class CrearTiendaFragment extends BaseFragment {
     private EditText longitud;
     private Button creaTienda;
     private Button getLocation;
-    private String creacion;
+    private String fechaVisita;
     private TipoTienda tTienda;
     private SubtipoTienda stTienda;
     private EditText acceso;
@@ -77,8 +77,7 @@ public class CrearTiendaFragment extends BaseFragment {
 
     private Button seleccionarImagenTienda;
     private Button seleccionarImagenTienda1;
-    //private EditText nombreImagen;
-    //private EditText nombreImagen1;
+
     private Uri mImageUri;
     private Uri mImageUri1;
     private ImageView mImageView;
@@ -204,10 +203,10 @@ public class CrearTiendaFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                creacion = df.format(new Date()).toString();
+                fechaVisita = df.format(new Date()).toString();
                 tiendaCreada = new Tienda(id.getText().toString(), nombreTienda.getText().toString(), tipoSeleccionado,
                         subtipoSeleccionado, direccion.getText().toString(), accesibSeleccionada, latitud.getText().toString()
-                        , longitud.getText().toString(), creacion, acceso.getText().toString(), puertaAcceso.getText().toString());
+                        , longitud.getText().toString(), fechaVisita, acceso.getText().toString(), puertaAcceso.getText().toString());
                 crearTienda(tiendaCreada);
                 uploadFile();
 

@@ -109,7 +109,7 @@ public class AccederFragment extends BaseFragment {
                             MainActivity.db.collection("users").document(email1.getEditText().getText().toString()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot ds) {
-                                    if(ds.get("admin").toString().contains("1")) {
+                                    if(ds.get("admin").toString().equals("1")) {
                                         getMainActivity().changeMenu(MenuType.ADMIN_LOGGED);
                                         Controlador.getInstance().setAdmin(1);
                                         Controlador.getInstance().setUsuario(ds.get("email").toString());
@@ -166,6 +166,19 @@ public class AccederFragment extends BaseFragment {
                             Controlador.getInstance().setCurrentUser(FirebaseAuth.getInstance().getCurrentUser());
                             Controlador.getInstance().setUsuario(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                             Controlador.getInstance().setNombreUsuarioActual(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+
+                            MainActivity.db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                                    .get()
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            if(documentSnapshot.get("admin").toString().contains("1")){
+                                                getMainActivity().changeMenu(MenuType.ADMIN_LOGGED);
+                                                Controlador.getInstance().setAdmin(1);
+                                            }
+                                        }
+                                    });
+
                             getMainActivity().getSupportActionBar().setTitle("HOME");
                             getMainActivity().setFragment(FragmentName.HOME);
                             getMainActivity().changeMenu(MenuType.USER_LOGGED);

@@ -321,6 +321,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Hasta la proxima "+Controlador.getInstance().getUsuario(),Toast.LENGTH_LONG).show();
                     mAuth.signOut();
                     clearBackStack();
+                    Controlador.getInstance().setAdmin(0);
                     setFragment(FragmentName.INDEX);
                 }
             }

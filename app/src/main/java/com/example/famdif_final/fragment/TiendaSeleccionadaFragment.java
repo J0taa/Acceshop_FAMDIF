@@ -119,16 +119,20 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
 
         btnEliminarTienda=view.findViewById(R.id.btnEliminarTienda);
         btnEditarTienda=view.findViewById(R.id.btnEditarTienda);
+        btnEliminarTienda.setVisibility(View.INVISIBLE);
+        btnEditarTienda.setVisibility(View.INVISIBLE);
+
         valorarTienda=view.findViewById(R.id.btnValorar);
         valorarTienda.setVisibility(View.INVISIBLE);
         ratingBar.setVisibility(View.INVISIBLE);
         puntuacionObtenida.setVisibility(View.INVISIBLE);
         idPuntTienda.setVisibility(View.INVISIBLE);
-        btnEliminarTienda.setVisibility(View.INVISIBLE);
+
 
         if(Controlador.getInstance().getUsuario()!=null){
             if(Controlador.getInstance().getAdmin()==1){
                 btnEliminarTienda.setVisibility(View.VISIBLE);
+                btnEditarTienda.setVisibility(View.VISIBLE);
             }
             valorarTienda.setVisibility(View.VISIBLE);
             ratingBar.setVisibility(View.VISIBLE);
@@ -136,8 +140,7 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
             idPuntTienda.setVisibility(View.VISIBLE);
         }
 
-        if(Controlador.getInstance().getUsuario()!=null){
-            btnEditarTienda.setVisibility(View.VISIBLE);
+       if(Controlador.getInstance().getUsuario()!=null){
             btnEditarTienda.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -173,7 +176,7 @@ public class TiendaSeleccionadaFragment extends BaseFragment {
 
         obtenerImagen();
         obtenerPuntuacion();
-        Log.i("TIENDA ",tiendaSeleccionada.getAcceso()+" "+tiendaSeleccionada.getPuertaAcceso());
+        //Log.i("TIENDA ",tiendaSeleccionada.getAcceso()+" "+tiendaSeleccionada.getPuertaAcceso());
         return view;
 
     }
